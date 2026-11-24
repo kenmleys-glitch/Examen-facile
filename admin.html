@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Kòd BAKO HAITI</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #0F172A; color: white; padding: 20px; text-align: center; }
+        .box { max-width: 400px; margin: 40px auto; background: #1E293B; padding: 25px; border-radius: 12px; border-top: 5px solid #FF6B00; }
+        input { width: 90%; padding: 14px; font-size: 18px; border-radius: 8px; border: none; margin: 15px 0; text-align: center; }
+        button { width: 98%; padding: 14px; font-size: 16px; font-weight: bold; background: #FF6B00; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        .result { margin-top: 20px; font-size: 24px; font-weight: bold; color: #10B981; background: #064E3B; padding: 15px; border-radius: 8px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>🔐 Jenere Kòd VIP</h2>
+        <p>Antre nimewo telefòn elèv ki peye 100 Gds la :</p>
+        <input type="tel" id="phone" placeholder="Ex: 37124567" maxlength="8">
+        <button onclick="makeCode()">Kreye Kòd Li</button>
+        <div id="res" class="result"></div>
+    </div>
+
+    <script>
+        function makeCode() {
+            var p = document.getElementById('phone').value.replace(/\D/g, '');
+            var res = document.getElementById('res');
+            if (p.length !== 8) {
+                alert("Antre 8 chif nimewo telefòn elèv la !");
+                return;
+            }
+            var hash = ((parseInt(p, 10) * 7) + 2026) % 9000 + 1000;
+            res.style.display = "block";
+            res.innerText = "Kòd Elèv la : BK-" + hash;
+        }
+    </script>
+</body>
+</html>
