@@ -16,7 +16,6 @@
 </header>
 
 <main class="container">
-  <!-- EKRAN 1 : AKEY -->
   <section id="homePage">
     <div id="profileBanner" class="card border-orange" style="padding:12px;">
       <p style="margin-bottom:6px;"><strong>👤 Identité :</strong> <span id="displayStudentName">Non enregistré</span></p>
@@ -26,13 +25,13 @@
 
     <div class="card border-blue">
       <h2>📘 9ème Année Fondamentale</h2>
-      <p>Mathématiques, Français, Sciences Exp., Sciences Sociales.</p>
+      <p>Choisissez une matière officielle pour démarrer votre évaluation.</p>
       <button class="btn btn-blue" onclick="openSubjects('9eme')">Voir les Matières (9ème)</button>
     </div>
 
     <div class="card border-red">
       <h2>🎓 NS4 - Baccalauréat (MENFP)</h2>
-      <p>Séries officielles : <strong>SMP • SVT • SES • LLA</strong></p>
+      <p>Sélectionnez votre Série officielle :</p>
       <div class="series-grid">
         <button class="btn btn-sm" onclick="openSubjects('smp')">SMP</button>
         <button class="btn btn-sm" onclick="openSubjects('svt')">SVT</button>
@@ -43,42 +42,45 @@
 
     <div class="card border-green">
       <h2>🏛️ Concours Université (UEH)</h2>
-      <p>Médecine, Génie, Droit, Agronomie : Culture générale.</p>
+      <p>Préparation par domaine : Culture Générale, Logique, Sciences.</p>
       <button class="btn btn-blue" onclick="openSubjects('univ')">Matières Concours UEH</button>
     </div>
   </section>
 
-  <!-- EKRAN KLASMAN PIBLIK (KONPETISYON NASYONAL) -->
   <section id="rankPage" style="display:none;">
     <div class="card border-orange">
       <h2 style="color:#FF6B00;">🏆 Classement Public National</h2>
-      <p>Position officielle des élèves et de leurs écoles par niveau :</p>
-      <div style="display:flex; gap:5px; margin-bottom:12px;">
+      <p>Position officielle des élèves par classe et par Série :</p>
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:5px; margin-bottom:12px;">
         <button class="btn btn-sm" style="background:#0038A8;" onclick="renderLeaderboard('9eme')">9ème</button>
-        <button class="btn btn-sm" style="background:#D21034;" onclick="renderLeaderboard('ns4')">NS4</button>
+        <button class="btn btn-sm" style="background:#D21034;" onclick="renderLeaderboard('smp')">NS4 - SMP</button>
+        <button class="btn btn-sm" style="background:#D21034;" onclick="renderLeaderboard('svt')">NS4 - SVT</button>
+        <button class="btn btn-sm" style="background:#D21034;" onclick="renderLeaderboard('ses')">NS4 - SES</button>
+        <button class="btn btn-sm" style="background:#D21034;" onclick="renderLeaderboard('lla')">NS4 - LLA</button>
         <button class="btn btn-sm" style="background:#10B981;" onclick="renderLeaderboard('univ')">UEH</button>
       </div>
       <div id="leaderboardList"></div>
     </div>
   </section>
-    <!-- EKRAN FÒM IDANTITE ELÈV LA (NON, LEKÒL, VIL, NIVO) -->
-  <section id="profilePage" style="display:none;">
+    <section id="profilePage" style="display:none;">
     <div class="card border-blue">
       <h2>👤 Mon Identité Officielle</h2>
       <p>Ces informations seront publiques dans le classement national :</p>
       <input type="text" id="inpName" class="input-code" style="text-transform:none;" placeholder="Nom et Prénom (ex: Jean Marc)">
       <input type="text" id="inpSchool" class="input-code" style="text-transform:none;" placeholder="Nom de ton École (ex: Lycée Toussaint)">
-      <input type="text" id="inpCity" class="input-code" style="text-transform:none;" placeholder="Ville / Commune (ex: Thomassique, Port-au-Prince)">
+      <input type="text" id="inpCity" class="input-code" style="text-transform:none;" placeholder="Ville / Commune (ex: Thomassique)">
       <select id="inpLevel" class="input-code" style="text-transform:none; background:white;">
         <option value="9eme">Niveau : 9ème Année Fondamentale</option>
-        <option value="ns4">Niveau : NS4 (Baccalauréat)</option>
+        <option value="smp">NS4 - Série SMP</option>
+        <option value="svt">NS4 - Série SVT</option>
+        <option value="ses">NS4 - Série SES</option>
+        <option value="lla">NS4 - Série LLA</option>
         <option value="univ">Niveau : Concours Université (UEH)</option>
       </select>
       <button class="btn btn-blue" onclick="saveStudentProfile()">💾 Enregistrer mon Profil Public</button>
     </div>
   </section>
 
-  <!-- EKRAN MATYÈ YO -->
   <section id="subjectPage" style="display:none;">
     <div class="card border-blue">
       <h2 id="subClassTitle">Matières Officielles</h2>
@@ -88,7 +90,6 @@
     <button class="btn btn-outline" onclick="goHome()">⬅️ Retour aux Classes</button>
   </section>
 
-  <!-- EKRAN EGZAMEN -->
   <section id="quizPage" style="display:none;">
     <div class="quiz-top">
       <span id="qTitle">Matière</span>
@@ -105,7 +106,6 @@
     <button class="btn btn-outline" onclick="backToSubjects()">⬅️ Changer de Matière</button>
   </section>
 
-  <!-- BILTEN KOREKSYON FINAL -->
   <section id="resultPage" style="display:none;">
     <div class="card border-green" style="text-align:center;">
       <h2 style="color:#0038A8;">📋 Bulletin & Points Gagnés</h2>
@@ -118,7 +118,6 @@
     </div>
   </section>
 
-  <!-- EKRAN VIP NATCASH -->
   <section id="vipPage" style="display:none;">
     <div class="card border-orange">
       <h2 style="color:#FF6B00;">🟠 Abonnement VIP - 100 Gds / 30 Jours</h2>
@@ -138,9 +137,9 @@
 <nav class="bottom-nav">
   <button onclick="goHome()">🏠 Accueil</button>
   <button onclick="openRankPage()">🏆 Classement</button>
-  <button onclick="goVip()">🟠 VIP (100 Gds)</button>
-</nav>
-<script>
+  <button onclick="goVip()">🟠 Abonnement (100 Gds)</button>
+    </nav>
+    <script>
 const classSubjects = {
   '9eme': {
     title: "📘 9ème Année Fondamentale (MENFP)",
@@ -197,52 +196,46 @@ const classSubjects = {
 const subjectQuestions = {
   "9_soc": [
     { id: "s9_1", q: "[MENFP 2024] Quel traité de 1697 a divisé l'île d'Haïti en deux colonies ?", o: ["Traité de Ryswick", "Traité de Bâle", "Traité de Paris"], a: 0, e: "Le traité de Ryswick (1697) a cédé Saint-Domingue à la France." },
-    { id: "s9_2", q: "[MENFP 2022] À quelle date fut publiée la première Constitution d'Haïti indépendante ?", o: ["1er janvier 1804", "20 mai 1805", "17 octobre 1806"], a: 1, e: "La Constitution impériale fut promulguée le 20 mai 1805 sous Dessalines." },
-    { id: "s9_3", q: "[MENFP 2023] Quel est le point culminant d'Haïti ?", o: ["Pic Macaya", "Pic la Selle (2 680 m)", "Morne Cabrit"], a: 1, e: "Le Pic la Selle est le sommet le plus élevé d'Haïti (2 680 m)." }
+    { id: "s9_2", q: "[MENFP 2022] Date de la première Constitution d'Haïti indépendante ?", o: ["1er janvier 1804", "20 mai 1805", "17 octobre 1806"], a: 1, e: "La Constitution impériale fut promulguée le 20 mai 1805." }
   ],
   "9_sci": [
-    { id: "sc9_1", q: "[MENFP 2023] Quel gaz représente environ 78 % de l'atmosphère terrestre ?", o: ["Dioxygène (O2)", "Diazote (N2)", "Dioxyde de carbone (CO2)"], a: 1, e: "L'atmosphère contient 78 % de diazote (N2) et 21 % de dioxygène." },
-    { id: "sc9_2", q: "[MENFP 2022] Quelle vitamine la peau synthétise-t-elle grâce au soleil ?", o: ["Vitamine A", "Vitamine C", "Vitamine D"], a: 2, e: "Les rayons UV du soleil permettent la synthèse de la vitamine D." }
+    { id: "sc9_1", q: "[MENFP 2023] Gaz représentant environ 78 % de l'atmosphère terrestre ?", o: ["Dioxygène (O2)", "Diazote (N2)", "CO2"], a: 1, e: "L'air contient 78 % de diazote (N2)." }
   ],
   "9_fr": [
-    { id: "fr9_1", q: "[MENFP 2023] Complétez : « Il faut que nous _____ nos devoirs. »", o: ["faisons", "fassions", "ferons"], a: 1, e: "Après « Il faut que », on emploie le subjonctif présent : fassions." },
-    { id: "fr9_2", q: "[MENFP 2024] Figure de style : « Elle pleure un fleuve de larmes. »", o: ["Comparaison", "Hyperbole", "Litote"], a: 1, e: "C'est une hyperbole (exagération)." }
+    { id: "fr9_1", q: "[MENFP 2023] Complétez : « Il faut que nous _____ nos devoirs. »", o: ["faisons", "fassions", "ferons"], a: 1, e: "Subjonctif présent après « Il faut que » : fassions." }
   ],
   "9_lang": [
-    { id: "lg9_1", q: "[MENFP - Anglais] Complete: « She _____ to school every morning. »", o: ["go", "goes", "going"], a: 1, e: "Au présent simple avec 'She', on ajoute -es : goes." },
-    { id: "lg9_2", q: "[MENFP - Espagnol] ¿Cómo se dice 'Livre' en español ?", o: ["Cuaderno", "Libro", "Lápiz"], a: 1, e: "'Libro' signifie livre en espagnol." }
+    { id: "lg9_1", q: "[MENFP - Anglais] Complete: « She _____ to school every morning. »", o: ["go", "goes", "going"], a: 1, e: "Présent simple 3e personne : goes." }
   ],
   "smp_phy": [
-    { id: "ph_1", q: "[MENFP NS4] Quelle est l'unité SI de la force ?", o: ["Joule (J)", "Watt (W)", "Newton (N)"], a: 2, e: "L'unité internationale de la force est le Newton (N)." },
-    { id: "ph_2", q: "[MENFP NS4] Formule chimique de l'acide sulfurique ?", o: ["HCl", "H2SO4", "NaOH"], a: 1, e: "L'acide sulfurique a pour formule H2SO4." }
+    { id: "ph_1", q: "[MENFP NS4] Quelle est l'unité SI de la force ?", o: ["Joule (J)", "Watt (W)", "Newton (N)"], a: 2, e: "L'unité internationale de la force est le Newton (N)." }
   ],
   "smp_philo": [
-    { id: "pl_1", q: "[MENFP NS4] Qui a écrit : « L'existence précède l'essence » ?", o: ["René Descartes", "Jean-Paul Sartre", "Platon"], a: 1, e: "Principe fondamental de l'existentialisme de Jean-Paul Sartre." }
+    { id: "pl_1", q: "[MENFP NS4] Qui a écrit : « L'existence précède l'essence » ?", o: ["Descartes", "Jean-Paul Sartre", "Platon"], a: 1, e: "Principe fondamental de Jean-Paul Sartre." }
   ],
   "svt_bio": [
-    { id: "bi_1", q: "[MENFP NS4] Quel organite cellulaire produit l'énergie (ATP) ?", o: ["Ribosome", "Mitochondrie", "Noyau"], a: 1, e: "La mitochondrie est la centrale énergétique de la cellule." },
-    { id: "bi_2", q: "[MENFP NS4] Quelle base azotée remplace la Thymine dans l'ARN ?", o: ["Adénine", "Uracile (U)", "Guanine"], a: 1, e: "Dans l'ARN, l'Uracile (U) remplace la Thymine (T)." }
+    { id: "bi_1", q: "[MENFP NS4] Organite cellulaire produisant l'énergie (ATP) ?", o: ["Ribosome", "Mitochondrie", "Noyau"], a: 1, e: "La mitochondrie est la centrale énergétique de la cellule." }
   ],
   "svt_chim": [
     { id: "ch_1", q: "[MENFP NS4] Quel est le pH d'une solution aqueuse neutre à 25°C ?", o: ["pH = 0", "pH = 7", "pH = 14"], a: 1, e: "Une solution neutre a un pH égal à 7." }
   ],
   "ses_eco": [
-    { id: "ec_1", q: "[MENFP NS4] Que mesure le Produit Intérieur Brut (PIB) ?", o: ["La dette extérieure", "La richesse totale produite dans un pays en un an", "Le budget de l'État"], a: 1, e: "Le PIB mesure la valeur des biens et services finaux produits sur le territoire." }
+    { id: "ec_1", q: "[MENFP NS4] Que mesure le Produit Intérieur Brut (PIB) ?", o: ["La dette extérieure", "La richesse totale produite dans un pays en un an", "Le budget"], a: 1, e: "Le PIB mesure la valeur des biens et services finaux produits." }
   ],
   "ses_hist": [
-    { id: "hi_1", q: "[MENFP NS4] Quel président haïtien a signé l'accord de désoccupation en 1934 ?", o: ["Louis Borno", "Sténio Vincent", "Élie Lescot"], a: 1, e: "Sténio Vincent a négocié le départ des troupes américaines en août 1934." }
+    { id: "hi_1", q: "[MENFP NS4] Président haïtien ayant signé la désoccupation en 1934 ?", o: ["Louis Borno", "Sténio Vincent", "Élie Lescot"], a: 1, e: "Sténio Vincent a négocié le départ des troupes en août 1934." }
   ],
   "lla_lit": [
-    { id: "lt_1", q: "[MENFP NS4] Qui est l'auteur de « Compère Général Soleil » (1955) ?", o: ["Jacques Roumain", "Jacques Stephen Alexis", "René Depestre"], a: 1, e: "Jacques Stephen Alexis a publié ce roman en 1955." }
+    { id: "lt_1", q: "[MENFP NS4] Auteur du roman « Compère Général Soleil » (1955) ?", o: ["Jacques Roumain", "Jacques Stephen Alexis", "René Depestre"], a: 1, e: "Jacques Stephen Alexis a publié ce roman en 1955." }
   ],
   "ueh_cult": [
-    { id: "uc_1", q: "[Concours UEH] Combien de départements compte la République d'Haïti ?", o: ["9", "10", "11"], a: 1, e: "Haïti compte 10 départements (le dernier étant les Nippes, 2003)." }
+    { id: "uc_1", q: "[Concours UEH] Combien de départements compte la République d'Haïti ?", o: ["9", "10", "11"], a: 1, e: "Haïti compte 10 départements." }
   ],
   "ueh_log": [
-    { id: "ul_1", q: "[Concours UEH] Complétez la suite logique : 2 - 6 - 18 - 54 - ?", o: ["108", "162", "216"], a: 1, e: "On multiplie chaque terme par 3 : 54 × 3 = 162." }
+    { id: "ul_1", q: "[Concours UEH] Complétez la suite : 2 - 6 - 18 - 54 - ?", o: ["108", "162", "216"], a: 1, e: "Chaque terme est multiplié par 3 : 54 × 3 = 162." }
   ]
 };
-  function genMathOnly(subId) {
+function genMathOnly(subId) {
   let res = [];
   for (let i = 0; i < 6; i++) {
     let a = Math.floor(Math.random() * 6) + 2, x = Math.floor(Math.random() * 9) + 1, b = Math.floor(Math.random() * 10) + 1;
@@ -261,11 +254,11 @@ const subjectQuestions = {
 }
 
 const defaultCompetitors = [
-  { name: "Jean-Baptiste Marc", school: "Lycée Toussaint Louverture", city: "Port-au-Prince", level: "ns4", pts: 145 },
-  { name: "Pierre-Louis Sarah", school: "Collège Canado-Haïtien", city: "Port-au-Prince", level: "ns4", pts: 130 },
-  { name: "Désir Peterson", school: "Lycée de Thomassique", city: "Thomassique", level: "ns4", pts: 115 },
+  { name: "Jean-Baptiste Marc", school: "Lycée Toussaint Louverture", city: "Port-au-Prince", level: "smp", pts: 145 },
+  { name: "Pierre-Louis Sarah", school: "Collège Canado-Haïtien", city: "Port-au-Prince", level: "svt", pts: 130 },
+  { name: "Désir Peterson", school: "Lycée de Thomassique", city: "Thomassique", level: "ses", pts: 115 },
+  { name: "Michel Woodline", school: "Lycée Jacques Roumain", city: "Hinche", level: "lla", pts: 110 },
   { name: "Joseph Wideline", school: "Institution Sainte-Rose", city: "Port-au-Prince", level: "9eme", pts: 120 },
-  { name: "Charles Stanley", school: "Collège Notre-Dame", city: "Cap-Haïtien", level: "9eme", pts: 95 },
   { name: "Saint-Fleur Rose", school: "Lycée Anténor Firmin", city: "Port-au-Prince", level: "univ", pts: 160 }
 ];
 
