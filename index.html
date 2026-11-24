@@ -16,6 +16,7 @@
     </header>
 
     <main class="container">
+        <!-- EKRAN 1 : AKEY -->
         <section id="homePage">
             <div class="card border-blue">
                 <h2>📘 9yèm Ane Fondamantal (MENFP)</h2>
@@ -44,6 +45,7 @@
             </div>
         </section>
 
+        <!-- EKRAN 2 : EGZAMEN -->
         <section id="quizPage" style="display:none;">
             <div class="quiz-top">
                 <span id="qTitle">Tès</span>
@@ -59,18 +61,21 @@
             <button class="btn btn-outline" onclick="goHome()">⬅️ Retounen nan Akèy</button>
         </section>
 
+        <!-- EKRAN 3 : VIP NATCASH + WHATSAPP -->
         <section id="vipPage" style="display:none;">
             <div class="card border-orange">
                 <h2 style="color:#FF6B00;">🟠 Abònman VIP - 100 Goud / 30 Jou</h2>
                 <p>Debloke 6000+ kesyon ak ansyen egzamen leta yo pou <strong>30 jou</strong>.</p>
+                
                 <div class="natcash-box">
                     <p><strong>Etap 1 : Peye 100 Goud sou Natcash</strong></p>
                     <p style="font-size:1.15rem; color:#0038A8; font-weight:bold; margin:5px 0;">📱 +509 42 40 22 15</p>
                     <p><strong>Etap 2 : Voye prèv peman an sou WhatsApp</strong></p>
-                    <button class="btn" style="background:#25D366; color:white; margin-top:8px;" onclick="window.open('https://wa.me', '_blank')">
+                    <a href="https://wa.me" target="_blank" class="btn" style="background:#25D366; color:white; text-decoration:none; margin-top:8px;">
                         💬 Voye Prèv la sou WhatsApp
-                    </button>
+                    </a>
                 </div>
+
                 <p style="font-size:0.85rem; text-align:center; margin-bottom:6px;"><strong>Etap 3 : Antre nimewo w ak kòd ou resevwa a :</strong></p>
                 <input type="tel" id="userPhone" class="input-code" placeholder="Nimewo telefòn ou (ex: 37124567)" maxlength="8">
                 <input type="text" id="vipCode" class="input-code" placeholder="Kòd pèsonèl ou (ex: BK-4829)">
@@ -81,8 +86,8 @@
     </main>
 
     <nav class="bottom-nav">
-        <button id="tabHome" class="active" onclick="goHome()">🏠 Akèy</button>
-        <button id="tabVip" onclick="goVip()">🟠 Abònman (100 Gds)</button>
+        <button id="tabHome" class="active" onclick="document.getElementById('homePage').style.display='block'; document.getElementById('vipPage').style.display='none'; document.getElementById('quizPage').style.display='none'; this.classList.add('active'); document.getElementById('tabVip').classList.remove('active');">🏠 Akèy</button>
+        <button id="tabVip" onclick="document.getElementById('homePage').style.display='none'; document.getElementById('quizPage').style.display='none'; document.getElementById('vipPage').style.display='block'; this.classList.add('active'); document.getElementById('tabHome').classList.remove('active');">🟠 Abònman (100 Gds)</button>
     </nav>
 
     <script src="script.js"></script>
