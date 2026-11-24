@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BAKO HAITI</title>
+<title>BAKO HAITI - MENFP</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="header">
   <h1>🇭🇹 BAKO HAITI</h1>
-  <p>Programme Officiel MENFP</p>
+  <p>Évaluations par Matière (Programme MENFP)</p>
   <div id="statusBadge" class="badge">Kont Gratis</div>
   <div id="expiryInfo" class="expiry-text"></div>
 </header>
@@ -19,33 +19,41 @@
   <section id="homePage">
     <div class="card border-blue">
       <h2>📘 9ème Année Fondamentale</h2>
-      <p>Mathématiques, Français, Sciences Exp., Sciences Sociales.</p>
-      <button class="btn btn-blue" onclick="goQuiz('9eme')">Commencer le Test (9e)</button>
-      <button class="btn btn-outline" onclick="openVip('9eme')">Anciens Examens d'État <span class="vip-tag">VIP</span></button>
+      <p>Choisissez une matière officielle pour démarrer votre évaluation.</p>
+      <button class="btn btn-blue" onclick="openSubjects('9eme')">Voir les Matières (9ème)</button>
     </div>
 
     <div class="card border-red">
       <h2>🎓 NS4 - Baccalauréat (MENFP)</h2>
-      <p>Séries : <strong>SMP • SVT • SES • LLA</strong></p>
+      <p>Sélectionnez votre série officielle :</p>
       <div class="series-grid">
-        <button class="btn btn-sm" onclick="goQuiz('smp')">SMP</button>
-        <button class="btn btn-sm" onclick="goQuiz('svt')">SVT</button>
-        <button class="btn btn-sm" onclick="goQuiz('ses')">SES</button>
-        <button class="btn btn-sm" onclick="goQuiz('lla')">LLA</button>
+        <button class="btn btn-sm" onclick="openSubjects('smp')">SMP</button>
+        <button class="btn btn-sm" onclick="openSubjects('svt')">SVT</button>
+        <button class="btn btn-sm" onclick="openSubjects('ses')">SES</button>
+        <button class="btn btn-sm" onclick="openSubjects('lla')">LLA</button>
       </div>
-      <button class="btn btn-outline" onclick="openVip('smp')">Examens Blancs NS4 <span class="vip-tag">VIP</span></button>
     </div>
 
     <div class="card border-green">
       <h2>🏛️ Concours Université (UEH)</h2>
-      <p>Médecine, Génie, Droit, Agronomie : Culture générale.</p>
-      <button class="btn btn-blue" onclick="goQuiz('univ')">Test Concours UEH</button>
-      <button class="btn btn-outline" onclick="openVip('univ')">Simulations Facultés <span class="vip-tag">VIP</span></button>
+      <p>Préparation par domaine : Culture Générale, Logique, Sciences.</p>
+      <button class="btn btn-blue" onclick="openSubjects('univ')">Matières Concours UEH</button>
     </div>
   </section>
-    <section id="quizPage" style="display:none;">
+    <!-- NOUVO EKRAN : CHWAZI MATYÈ A -->
+  <section id="subjectPage" style="display:none;">
+    <div class="card border-blue">
+      <h2 id="subClassTitle">Matières Officielles</h2>
+      <p>Sélectionnez une matière pour commencer l'évaluation :</p>
+      <div id="subjectButtonsList"></div>
+    </div>
+    <button class="btn btn-outline" onclick="goHome()">⬅️ Retour aux Classes</button>
+  </section>
+
+  <!-- EKRAN EGZAMEN PA MATYÈ -->
+  <section id="quizPage" style="display:none;">
     <div class="quiz-top">
-      <span id="qTitle">Examen</span>
+      <span id="qTitle">Matière</span>
       <span id="liveScore" style="color:#10B981;">Note : 0 / 5</span>
     </div>
     <div class="card border-blue">
@@ -56,19 +64,22 @@
       <div id="qExp" class="explanation" style="display:none;"></div>
       <button id="btnNext" class="btn btn-blue" style="display:none; margin-top:15px;" onclick="nextQ()">Question Suivante ➡️</button>
     </div>
-    <button class="btn btn-outline" onclick="goHome()">⬅️ Retour à l'Accueil</button>
+    <button class="btn btn-outline" onclick="backToSubjects()">⬅️ Changer de Matière</button>
   </section>
 
+  <!-- BILTEN KOREKSYON FINAL -->
   <section id="resultPage" style="display:none;">
     <div class="card border-green" style="text-align:center;">
       <h2 style="color:#0038A8;">📋 Bulletin de Correction</h2>
       <div id="resPct" style="font-size:2.4rem; font-weight:bold; color:#10B981; margin:15px 0;">0 / 100</div>
       <p id="resTxt" style="font-weight:bold;"></p>
       <div id="resMent" style="padding:10px; border-radius:8px; margin:15px 0; font-weight:bold;"></div>
-      <button class="btn btn-blue" id="btnNewSet">🔄 Nouvelles Questions</button>
-      <button class="btn btn-outline" onclick="goHome()">🏠 Retour à l'Accueil</button>
+      <button class="btn btn-blue" id="btnNewSet">🔄 Nouvelle Série (Sans Répétition)</button>
+      <button class="btn btn-outline" onclick="backToSubjects()">📚 Choisir une autre Matière</button>
     </div>
   </section>
+
+  <!-- EKRAN VIP NATCASH -->
   <section id="vipPage" style="display:none;">
     <div class="card border-orange">
       <h2 style="color:#FF6B00;">🟠 Abonnement VIP - 100 Gds / 30 Jours</h2>
@@ -90,48 +101,126 @@
   <button onclick="goVip()">🟠 Abonnement (100 Gds)</button>
 </nav>
 <script>
-const db = {
-  '9eme': [
-    { id: "9_1", q: "[MENFP - Histoire] Quel traité de 1697 a divisé l'île d'Haïti ?", o: ["Traité de Ryswick", "Traité de Bâle", "Traité de Paris"], a: 0, e: "Le traité de Ryswick (1697) a cédé Saint-Domingue à la France." },
-    { id: "9_2", q: "[MENFP - Français] Complétez : « Il faut que nous _____ nos devoirs. »", o: ["faisons", "fassions", "ferons"], a: 1, e: "Après « Il faut que », on met le subjonctif : fassions." },
-    { id: "9_3", q: "[MENFP - Sciences] Gaz représentant 78 % de l'atmosphère ?", o: ["Dioxygène (O2)", "Diazote (N2)", "CO2"], a: 1, e: "L'air contient 78 % de diazote (N2)." }
-  ],
-  'smp': [
-    { id: "s_1", q: "[MENFP NS4 - Physique] Unité SI de la force ?", o: ["Joule", "Watt", "Newton"], a: 2, e: "L'unité internationale de la force est le Newton (N)." },
-    { id: "s_2", q: "[MENFP NS4 - Chimie] Formule de l'acide sulfurique ?", o: ["HCl", "H2SO4", "NaOH"], a: 1, e: "Sa formule est H2SO4." }
-  ],
-  'svt': [
-    { id: "v_1", q: "[MENFP NS4 - Biologie] Organite produisant l'ATP ?", o: ["Ribosome", "Mitochondrie", "Noyau"], a: 1, e: "La mitochondrie produit l'énergie cellulaire." }
-  ],
-  'ses': [
-    { id: "e_1", q: "[MENFP NS4 - Histoire] Fin de l'occupation américaine en Haïti ?", o: ["1915", "1934", "1957"], a: 1, e: "Départ des troupes en août 1934." }
-  ],
-  'lla': [
-    { id: "l_1", q: "[MENFP NS4 - Philosophie] Qui a dit : « L'existence précède l'essence » ?", o: ["Descartes", "Jean-Paul Sartre", "Platon"], a: 1, e: "Principe de Jean-Paul Sartre." }
-  ],
-  'univ': [
-    { id: "u_1", q: "[Concours UEH] Nombre de départements en Haïti ?", o: ["9", "10", "11"], a: 1, e: "Haïti compte 10 départements." }
-  ]
+const classSubjects = {
+  '9eme': {
+    title: "📘 9ème Année Fondamentale (MENFP)",
+    subjects: [
+      { id: "9_math", name: "📐 Mathématiques", vip: false },
+      { id: "9_soc", name: "🌍 Sciences Sociales (Histoire/Géo)", vip: false },
+      { id: "9_sci", name: "🔬 Sciences Expérimentales", vip: true },
+      { id: "9_fr", name: "📖 Français & Communication", vip: true },
+      { id: "9_lang", name: "🗣️ Anglais & Espagnol", vip: true }
+    ]
+  },
+  'smp': {
+    title: "🎓 NS4 - Série SMP",
+    subjects: [
+      { id: "smp_math", name: "📐 Mathématiques (Analyse/Algèbre)", vip: false },
+      { id: "smp_phy", name: "⚡ Physique & Chimie", vip: true },
+      { id: "smp_philo", name: "🧠 Philosophie", vip: true }
+    ]
+  },
+  'svt': {
+    title: "🎓 NS4 - Série SVT",
+    subjects: [
+      { id: "svt_bio", name: "🧬 Biologie & Géologie", vip: false },
+      { id: "svt_chim", name: "🧪 Chimie & Physique", vip: true },
+      { id: "smp_math", name: "📐 Mathématiques", vip: true }
+    ]
+  },
+  'ses': {
+    title: "🎓 NS4 - Série SES",
+    subjects: [
+      { id: "ses_eco", name: "📊 Économie", vip: false },
+      { id: "ses_hist", name: "🏛️ Histoire & Géographie", vip: true },
+      { id: "smp_math", name: "📐 Mathématiques Financières", vip: true }
+    ]
+  },
+  'lla': {
+    title: "🎓 NS4 - Série LLA",
+    subjects: [
+      { id: "lla_lit", name: "📚 Littérature Haïtienne & Française", vip: false },
+      { id: "smp_philo", name: "🧠 Philosophie", vip: true },
+      { id: "9_lang", name: "🗣️ Langues Vivantes", vip: true }
+    ]
+  },
+  'univ': {
+    title: "🏛️ Concours Université (UEH)",
+    subjects: [
+      { id: "ueh_cult", name: "🇭🇹 Culture Générale (Haïti & Monde)", vip: false },
+      { id: "ueh_log", name: "🧩 Logique & Raisonnement", vip: true },
+      { id: "smp_math", name: "📐 Mathématiques (FDS / Économie)", vip: true }
+    ]
+  }
 };
 
-function genMath(cat) {
+const subjectQuestions = {
+  "9_soc": [
+    { id: "s9_1", q: "[MENFP 2024] Quel traité de 1697 a divisé l'île d'Haïti en deux colonies ?", o: ["Traité de Ryswick", "Traité de Bâle", "Traité de Paris"], a: 0, e: "Le traité de Ryswick (1697) a cédé Saint-Domingue à la France." },
+    { id: "s9_2", q: "[MENFP 2022] À quelle date fut publiée la première Constitution d'Haïti indépendante ?", o: ["1er janvier 1804", "20 mai 1805", "17 octobre 1806"], a: 1, e: "La Constitution impériale fut promulguée le 20 mai 1805 sous Dessalines." },
+    { id: "s9_3", q: "[MENFP 2023] Quel est le point culminant d'Haïti ?", o: ["Pic Macaya", "Pic la Selle (2 680 m)", "Morne Cabrit"], a: 1, e: "Le Pic la Selle est le sommet le plus élevé d'Haïti (2 680 m)." }
+  ],
+  "9_sci": [
+    { id: "sc9_1", q: "[MENFP 2023] Quel gaz représente environ 78 % de l'atmosphère terrestre ?", o: ["Dioxygène (O2)", "Diazote (N2)", "Dioxyde de carbone (CO2)"], a: 1, e: "L'atmosphère contient 78 % de diazote (N2) et 21 % de dioxygène." },
+    { id: "sc9_2", q: "[MENFP 2022] Quelle vitamine la peau synthétise-t-elle grâce au soleil ?", o: ["Vitamine A", "Vitamine C", "Vitamine D"], a: 2, e: "Les rayons UV du soleil permettent la synthèse de la vitamine D." }
+  ],
+  "9_fr": [
+    { id: "fr9_1", q: "[MENFP 2023] Complétez : « Il faut que nous _____ nos devoirs. »", o: ["faisons", "fassions", "ferons"], a: 1, e: "Après « Il faut que », on emploie le subjonctif présent : fassions." },
+    { id: "fr9_2", q: "[MENFP 2024] Figure de style : « Elle pleure un fleuve de larmes. »", o: ["Comparaison", "Hyperbole", "Litote"], a: 1, e: "C'est une hyperbole (exagération)." }
+  ],
+  "9_lang": [
+    { id: "lg9_1", q: "[MENFP - Anglais] Complete: « She _____ to school every morning. »", o: ["go", "goes", "going"], a: 1, e: "Au présent simple avec 'She', on ajoute -es : goes." },
+    { id: "lg9_2", q: "[MENFP - Espagnol] ¿Cómo se dice 'Livre' en español ?", o: ["Cuaderno", "Libro", "Lápiz"], a: 1, e: "'Libro' signifie livre en espagnol." }
+  ],
+  "smp_phy": [
+    { id: "ph_1", q: "[MENFP NS4] Quelle est l'unité SI de la force ?", o: ["Joule (J)", "Watt (W)", "Newton (N)"], a: 2, e: "L'unité internationale de la force est le Newton (N)." },
+    { id: "ph_2", q: "[MENFP NS4] Formule chimique de l'acide sulfurique ?", o: ["HCl", "H2SO4", "NaOH"], a: 1, e: "L'acide sulfurique a pour formule H2SO4." }
+  ],
+  "smp_philo": [
+    { id: "pl_1", q: "[MENFP NS4] Qui a écrit : « L'existence précède l'essence » ?", o: ["René Descartes", "Jean-Paul Sartre", "Platon"], a: 1, e: "Principe fondamental de l'existentialisme de Jean-Paul Sartre." }
+  ],
+  "svt_bio": [
+    { id: "bi_1", q: "[MENFP NS4] Quel organite cellulaire produit l'énergie (ATP) ?", o: ["Ribosome", "Mitochondrie", "Noyau"], a: 1, e: "La mitochondrie est la centrale énergétique de la cellule." },
+    { id: "bi_2", q: "[MENFP NS4] Quelle base azotée remplace la Thymine dans l'ARN ?", o: ["Adénine", "Uracile (U)", "Guanine"], a: 1, e: "Dans l'ARN, l'Uracile (U) remplace la Thymine (T)." }
+  ],
+  "svt_chim": [
+    { id: "ch_1", q: "[MENFP NS4] Quel est le pH d'une solution aqueuse neutre à 25°C ?", o: ["pH = 0", "pH = 7", "pH = 14"], a: 1, e: "Une solution neutre a un pH égal à 7." }
+  ],
+  "ses_eco": [
+    { id: "ec_1", q: "[MENFP NS4] Que mesure le Produit Intérieur Brut (PIB) ?", o: ["La dette extérieure", "La richesse totale produite dans un pays en un an", "Le budget de l'État"], a: 1, e: "Le PIB mesure la valeur des biens et services finaux produits sur le territoire." }
+  ],
+  "ses_hist": [
+    { id: "hi_1", q: "[MENFP NS4] Quel président haïtien a signé l'accord de désoccupation en 1934 ?", o: ["Louis Borno", "Sténio Vincent", "Élie Lescot"], a: 1, e: "Sténio Vincent a négocié le départ des troupes américaines en août 1934." }
+  ],
+  "lla_lit": [
+    { id: "lt_1", q: "[MENFP NS4] Qui est l'auteur de « Compère Général Soleil » (1955) ?", o: ["Jacques Roumain", "Jacques Stephen Alexis", "René Depestre"], a: 1, e: "Jacques Stephen Alexis a publié ce roman en 1955." }
+  ],
+  "ueh_cult": [
+    { id: "uc_1", q: "[Concours UEH] Combien de départements compte la République d'Haïti ?", o: ["9", "10", "11"], a: 1, e: "Haïti compte 10 départements (le dernier étant les Nippes, 2003)." }
+  ],
+  "ueh_log": [
+    { id: "ul_1", q: "[Concours UEH] Complétez la suite logique : 2 - 6 - 18 - 54 - ?", o: ["108", "162", "216"], a: 1, e: "On multiplie chaque terme par 3 : 54 × 3 = 162." }
+  ]
+};
+function genMathOnly(subId) {
   let res = [];
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 6; i++) {
     let a = Math.floor(Math.random() * 6) + 2, x = Math.floor(Math.random() * 9) + 1, b = Math.floor(Math.random() * 10) + 1;
-    let id = cat + "_" + Date.now() + "_" + i + "_" + Math.random();
-    if (cat === '9eme') {
+    let id = subId + "_" + Date.now() + "_" + i + "_" + Math.random();
+    if (subId === '9_math') {
       let c = a * x + b, ans = "x = " + x;
       let o = [ans, "x = " + (x + 2), "x = " + (x + 4)].sort(() => Math.random() - 0.5);
-      res.push({ id: id, q: "[Math 9e] Résolvez : " + a + "x + " + b + " = " + c, o: o, a: o.indexOf(ans), e: a + "x = " + (c - b) + " ⇒ x = " + x });
-    } else {
+      res.push({ id: id, q: "[Mathématiques 9e] Résolvez : " + a + "x + " + b + " = " + c, o: o, a: o.indexOf(ans), e: a + "x = " + (c - b) + " ⇒ x = " + x });
+    } else if (subId === 'smp_math') {
       let ans = (3 * a) + "x² + " + (2 * b) + "x";
       let o = [ans, a + "x² + " + b + "x", (2 * a) + "x² + " + b].sort(() => Math.random() - 0.5);
-      res.push({ id: id, q: "[Math NS4] Dérivée de f(x) = " + a + "x³ + " + b + "x² ?", o: o, a: o.indexOf(ans), e: "f'(x) = " + ans });
+      res.push({ id: id, q: "[Mathématiques NS4] Dérivée de f(x) = " + a + "x³ + " + b + "x² ?", o: o, a: o.indexOf(ans), e: "f'(x) = " + ans });
     }
   }
   return res;
 }
-    function checkSub() {
+
+function checkSub() {
   const s = JSON.parse(localStorage.getItem('bako_haiti_sub'));
   const b = document.getElementById('statusBadge'), e = document.getElementById('expiryInfo');
   if (!s) { b.textContent = "Kont Gratis"; return false; }
@@ -154,27 +243,55 @@ function checkVip() {
   } else { msg.style.color = "#D21034"; msg.textContent = "❌ Kòd pa bon."; }
 }
 
-function openVip(cat) {
-  if (checkSub()) goQuiz(cat);
-  else { alert("🔒 Abonnement VIP requis (100 Gds / 30 jours)."); goVip(); }
-}
+let list = [], idx = 0, score = 0, curClass = '', curSubId = '', curSubName = '';
 
-let list = [], idx = 0, score = 0, curCat = '';
-function hideAll() { ['homePage','quizPage','resultPage','vipPage'].forEach(id => document.getElementById(id).style.display = 'none'); }
+function hideAll() {
+  ['homePage','subjectPage','quizPage','resultPage','vipPage'].forEach(id => document.getElementById(id).style.display = 'none');
+}
 function goHome() { hideAll(); document.getElementById('homePage').style.display = 'block'; }
 function goVip() { hideAll(); document.getElementById('vipPage').style.display = 'block'; }
+function backToSubjects() { openSubjects(curClass); }
 
-function goQuiz(cat) {
-  curCat = cat;
+function openSubjects(cls) {
+  curClass = cls;
+  const info = classSubjects[cls];
+  document.getElementById('subClassTitle').textContent = info.title;
+  const box = document.getElementById('subjectButtonsList');
+  box.innerHTML = '';
+  const isVipUser = checkSub();
+
+  info.subjects.forEach(sub => {
+    const btn = document.createElement('button');
+    btn.className = sub.vip ? 'btn btn-outline' : 'btn btn-blue';
+    btn.innerHTML = sub.name + (sub.vip && !isVipUser ? ' <span class="vip-tag">VIP</span>' : '');
+    btn.onclick = () => {
+      if (sub.vip && !checkSub()) {
+        alert("🔒 Matière réservée aux membres VIP (100 Gds / 30 jours).");
+        goVip();
+      } else {
+        startSubjectQuiz(sub.id, sub.name);
+      }
+    };
+    box.appendChild(btn);
+  });
+
+  hideAll();
+  document.getElementById('subjectPage').style.display = 'block';
+}
+
+function startSubjectQuiz(subId, subName) {
+  curSubId = subId;
+  curSubName = subName;
   let seen = JSON.parse(localStorage.getItem('bako_seen') || '[]');
-  let pool = (db[cat] || db['9eme']).concat(genMath(cat));
+  let pool = (subId === '9_math' || subId === 'smp_math') ? genMathOnly(subId) : (subjectQuestions[subId] || []);
   let fresh = pool.filter(q => !seen.includes(q.id));
-  if (fresh.length < 3) { localStorage.removeItem('bako_seen'); fresh = pool; }
+  if (fresh.length === 0) { localStorage.removeItem('bako_seen'); fresh = pool; }
   list = fresh.sort(() => Math.random() - 0.5).slice(0, 5);
   idx = 0; score = 0;
-  document.getElementById('qTitle').textContent = "Examen " + cat.toUpperCase();
+  document.getElementById('qTitle').textContent = subName;
   document.getElementById('liveScore').textContent = "Note : 0 / " + list.length;
-  hideAll(); document.getElementById('quizPage').style.display = 'block';
+  hideAll();
+  document.getElementById('quizPage').style.display = 'block';
   showQ();
 }
 
@@ -215,12 +332,12 @@ function nextQ() {
     hideAll(); document.getElementById('resultPage').style.display = 'block';
     let pct = Math.round((score / list.length) * 100);
     document.getElementById('resPct').textContent = pct + " / 100";
-    document.getElementById('resTxt').textContent = "Bonnes réponses : " + score + " sur " + list.length;
+    document.getElementById('resTxt').textContent = curSubName + " : " + score + " / " + list.length;
     const m = document.getElementById('resMent');
     m.style.background = pct >= 50 ? "#D1FAE5" : "#FEE2E2";
     m.style.color = pct >= 50 ? "#065F46" : "#991B1B";
     m.textContent = pct >= 80 ? "🏆 Mention : TRÈS BIEN" : (pct >= 50 ? "👍 Mention : ADMIS" : "❌ Résultat : AJOURNÉ");
-    document.getElementById('btnNewSet').onclick = () => goQuiz(curCat);
+    document.getElementById('btnNewSet').onclick = () => startSubjectQuiz(curSubId, curSubName);
   }
 }
 </script>
