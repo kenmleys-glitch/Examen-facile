@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAKO HAITI - Pwogram Ofisyèl MENFP</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header">
+        <h1>🇭🇹 BAKO HAITI</h1>
+        <p>Konfòm ak Pwogram Ofisyèl MENFP</p>
+        <div id="statusBadge" class="badge">Kont Gratis</div>
+        <div id="expiryInfo" class="expiry-text"></div>
+    </header>
+
+    <main class="container">
+        <!-- EKRAN 1 : AKEY -->
+        <section id="homePage">
+            <div class="card border-blue">
+                <h2>📘 9yèm Ane Fondamantal (MENFP)</h2>
+                <p>Matematik, Kreyòl, Fransè, Syans Eksperimantal, Syans Sosyal, Anglè/Panyòl.</p>
+                <button class="btn btn-blue" onclick="startQuiz('9eme')">Tès Gratis (9yèm Ane)</button>
+                <button class="btn btn-outline" onclick="openVipContent('9eme_vip')">Ansyen Egzamen Leta 9yèm <span class="vip-tag">VIP</span></button>
+            </div>
+
+            <div class="card border-red">
+                <h2>🎓 NS4 - Bakaloreya (Serye MENFP)</h2>
+                <p>Chwazi serye ou : <strong>SMP • SVT • SES • LLA</strong> (Kou + Egzamen Blan).</p>
+                <div class="series-grid">
+                    <button class="btn btn-sm" onclick="startQuiz('smp')">SMP</button>
+                    <button class="btn btn-sm" onclick="startQuiz('svt')">SVT</button>
+                    <button class="btn btn-sm" onclick="startQuiz('ses')">SES</button>
+                    <button class="btn btn-sm" onclick="startQuiz('lla')">LLA</button>
+                </div>
+                <button class="btn btn-outline" onclick="openVipContent('ns4_vip')">Tout Egzamen & PDF NS4 <span class="vip-tag">VIP</span></button>
+            </div>
+
+            <div class="card border-green">
+                <h2>🏛️ Konkou Inivèsite (UEH & Lòt)</h2>
+                <p>Preparasyon pou : Medsin (FMP), Jeni (FDS), Dwa (FDSE), Agronomi (FAMV).</p>
+                <button class="btn btn-blue" onclick="startQuiz('univ')">Tès Gratis (Konkou UEH)</button>
+                <button class="btn btn-outline" onclick="openVipContent('univ_vip')">Similasyon Konkou Fakilte <span class="vip-tag">VIP</span></button>
+            </div>
+        </section>
+
+        <!-- EKRAN 2 : EGZAMEN -->
+        <section id="quizPage" style="display:none;">
+            <div class="quiz-top">
+                <span id="qTitle">Tès</span>
+                <span id="qTimer" class="timer">⏱️ 02:00</span>
+            </div>
+
+            <div class="card border-blue">
+                <p id="qCount" class="q-count">Kesyon 1/3</p>
+                <h3 id="qText" class="q-text"></h3>
+                <div id="qOptions"></div>
+                <div id="qExp" class="explanation" style="display:none;"></div>
+                <button id="btnNext" class="btn btn-blue" style="display:none; margin-top:15px;" onclick="nextQ()">Kesyon Swivan ➡️</button>
+            </div>
+
+            <button class="btn btn-outline" onclick="goHome()">⬅️ Retounen nan Akèy</button>
+        </section>
+
+        <!-- EKRAN 3 : VIP NATCASH (30 JOU + KÒD INIK) -->
+        <section id="vipPage" style="display:none;">
+            <div class="card border-orange">
+                <h2 style="color:#FF6B00;">🟠 Abònman VIP - 100 Goud / 30 Jou</h2>
+                <p>Aksè VIP a valab pou <strong>30 jou</strong> epi li mare ak nimewo telefòn ou (pa ka pataje).</p>
+                
+                <div class="natcash-box">
+                    <p><strong>Etap pou peye ak Natcash :</strong></p>
+                    <ol>
+                        <li>Voye <strong>100 Goud</strong> sou Natcash : <strong>+509 40 00 0000</strong></li>
+                        <li>Voye prèv la + nimewo telefòn ou sou WhatsApp pou resevwa kòd pèsonèl ou.</li>
+                        <li>Antre nimewo w ak kòd ou anba a :</li>
+                    </ol>
+                </div>
+
+                <input type="tel" id="userPhone" class="input-code" placeholder="Nimewo telefòn ou (ex: 37124567)" maxlength="8">
+                <input type="text" id="vipCode" class="input-code" placeholder="Kòd pèsonèl ou (ex: BK-4829)">
+                <button class="btn btn-orange" onclick="checkVip()">Aktive Abònman 30 Jou Mwen</button>
+                <p id="vipMsg" class="vip-msg"></p>
+            </div>
+        </section>
+    </main>
+
+    <nav class="bottom-nav">
+        <button id="tabHome" class="active" onclick="goHome()">🏠 Akèy</button>
+        <button id="tabVip" onclick="goVip()">🟠 Abònman (100 Gds)</button>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>
