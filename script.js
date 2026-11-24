@@ -1,42 +1,36 @@
-const quizDatabase = {
-    '9eme': {
-        title: '9yèm Ane (MENFP)',
-        questions: [
-            { q: "Matematik : Ki valè x nan 3x - 7 = 14 ?", options: ["x = 5", "x = 7", "x = 21"], answer: 1, exp: "3x = 21 => x = 7." },
-            { q: "Istwa : Ki dat batay Vètyè a te fèt ?", options: ["1ye Janvye 1804", "18 Novanm 1803", "14 Out 1791"], answer: 1, exp: "18 Novanm 1803." }
-        ]
-    },
-    'smp': {
-        title: 'NS4 - SMP',
-        questions: [
-            { q: "Fizik : Fòs pou mas 5kg ak akselerasyon 3m/s² ?", options: ["8 N", "15 N", "2 N"], answer: 1, exp: "F = 5 × 3 = 15 N." }
-        ]
-    },
-    'svt': {
-        title: 'NS4 - SVT',
-        questions: [
-            { q: "Biyoloji : Òganit ki pwodui enèji (ATP) ?", options: ["Ribozòm", "Mitokondri", "Nwayo"], answer: 1, exp: "Mitokondri a." }
-        ]
-    },
-    'ses': {
-        title: 'NS4 - SES',
-        questions: [
-            { q: "Istwa : Ki lane okipasyon amerikèn nan kòmanse ?", options: ["1915", "1934", "1957"], answer: 0, exp: "28 Jiyè 1915." }
-        ]
-    },
-    'lla': {
-        title: 'NS4 - LLA',
-        questions: [
-            { q: "Literati : Kiyès ki ekri 'Compère Général Soleil' ?", options: ["Jacques Roumain", "Jacques Stephen Alexis", "René Depestre"], answer: 1, exp: "Jacques Stephen Alexis (1955)." }
-        ]
-    },
-    'univ': {
-        title: 'Konkou UEH',
-        questions: [
-            { q: "Jewografi : Konbyen depatman ki genyen ann Ayiti ?", options: ["9", "10", "11"], answer: 1, exp: "10 depatman." }
-        ]
+function getSeenQuestions() {
+    return JSON.parse(localStorage.getItem('bako_seen_q') || '[]');
+}
+
+function markQuestionAsSeen(qId) {
+    if (!qId) return;
+    let seen = getSeenQuestions();
+    if (!seen.includes(qId)) {
+        seen.push(qId);
+        localStorage.setItem('bako_seen_q', JSON.stringify(seen));
     }
-};
+}
+
+function getQuestionsForCategory(cat) {
+    let pool = [];
+    if (cat === '9eme') {
+        if (typeof bank9eme !== 'undefined') pool = pool.concat(bank9eme.ansyen_egzamen);
+        if (typeof generateMath9emeSet === 'function') pool = pool.concat(generateMath9emeSet(25));
+    } else if (['smp', 'svt', 'ses', 'lla'].includes(cat)) {
+        if (typeof bankNS4 !== 'undefined') pool = pool.concat(bankNS4.ansyen_egzamen);
+        if (typeof generateNS4Set === 'function') pool = pool.concat(generateNS4Set(cat, 25));
+    } else {
+        pool = [
+            { id: "ueh_1", q: "Jewografi : Konbyen depatman ki genyen ann Ayiti ?", options: ["9", "10", "11"], answer: 1, exp: "Ayiti gen 10 depatman." },
+            { id: "ueh_2", q: "Istwa : Ki dat batay Vètyè a te fèt ?", options: ["1ye Janvye 1804", "18 Novanm 1803", "14 Out 1791"], answer: 1, exp: "18 Novanm 1803." }
+        ];
+    }
+
+    let seen = getSeenQuestions();
+    let fresh = pool.filter(item => !seen.includes(item.id));
+    if (fresh.length === 0) fresh = pool;
+    return fresh.sort(() => Math.random() - 0.5).slice(0, 10);
+}
 
 function generateUniqueCode(p) {
     let n = parseInt(p, 10);
@@ -78,11 +72,16 @@ function checkVip() {
 }
 
 function openVipContent(sec) {
-    if (checkSubscriptionStatus()) { alert("⭐ Espas VIP Debloke pou : " + sec); }
-    else { alert("🔒 Abònman VIP obligatwa (100 Gds / 30 jou)."); goVip(); }
+    if (checkSubscriptionStatus()) {
+        let cat = sec.includes('9eme') ? '9eme' : (sec.includes('ns4') ? 'smp' : 'univ');
+        startQuiz(cat);
+    } else {
+        alert("🔒 Abònman VIP obligatwa (100 Gds / 30 jou).");
+        goVip();
+    }
 }
 
-let curCat = '', curIdx = 0, score = 0;
+let currentQuestions = [], curIdx = 0, score = 0;
 
 function goHome() {
     document.getElementById('homePage').style.display = 'block';
@@ -101,8 +100,10 @@ function goVip() {
 }
 
 function startQuiz(cat) {
-    curCat = cat; curIdx = 0; score = 0;
-    document.getElementById('qTitle').textContent = quizDatabase[cat].title;
+    currentQuestions = getQuestionsForCategory(cat);
+    curIdx = 0;
+    score = 0;
+    document.getElementById('qTitle').textContent = "Egzamen " + cat.toUpperCase();
     document.getElementById('homePage').style.display = 'none';
     document.getElementById('vipPage').style.display = 'none';
     document.getElementById('quizPage').style.display = 'block';
@@ -110,9 +111,9 @@ function startQuiz(cat) {
 }
 
 function loadQuestion() {
-    const qList = quizDatabase[curCat].questions;
-    const qObj = qList[curIdx];
-    document.getElementById('qCount').textContent = `Kesyon ${curIdx + 1} / ${qList.length}`;
+    const qObj = currentQuestions[curIdx];
+    markQuestionAsSeen(qObj.id);
+    document.getElementById('qCount').textContent = `Kesyon ${curIdx + 1} / ${currentQuestions.length}`;
     document.getElementById('qText').textContent = qObj.q;
     document.getElementById('qExp').style.display = 'none';
     document.getElementById('btnNext').style.display = 'none';
@@ -136,7 +137,6 @@ function loadQuestion() {
 
 function nextQ() {
     curIdx++;
-    if (curIdx < quizDatabase[curCat].questions.length) { loadQuestion(); }
-    else { alert(`🎉 Nòt ou : ${score} / ${quizDatabase[curCat].questions.length}`); goHome(); }
+    if (curIdx < currentQuestions.length) { loadQuestion(); }
+    else { alert(`🎉 Tès la fini ! Nòt ou : ${score} / ${currentQuestions.length}`); goHome(); }
 }
-    
