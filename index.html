@@ -1,103 +1,228 @@
 <!DOCTYPE html>
-<html lang="ht">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAKO HAITI - Pwogram Ofisyèl MENFP</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BAKO HAITI</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header class="header">
-        <h1>🇭🇹 BAKO HAITI</h1>
-        <p>Konfòm ak Pwogram Ofisyèl MENFP</p>
-        <div id="statusBadge" class="badge">Kont Gratis</div>
-        <div id="expiryInfo" class="expiry-text"></div>
-    </header>
+<header class="header">
+  <h1>🇭🇹 BAKO HAITI</h1>
+  <p>Programme Officiel MENFP</p>
+  <div id="statusBadge" class="badge">Kont Gratis</div>
+  <div id="expiryInfo" class="expiry-text"></div>
+</header>
 
-    <main class="container">
-        <section id="homePage">
-            <div class="card border-blue">
-                <h2>📘 9yèm Ane Fondamantal (MENFP)</h2>
-                <p>Matematik, Kreyòl, Fransè, Syans Eksperimantal, Syans Sosyal, Anglè/Panyòl.</p>
-                <button class="btn btn-blue" onclick="startQuiz('9eme')">Tès Gratis (9yèm Ane)</button>
-                <button class="btn btn-outline" onclick="openVipContent('9eme_vip')">Ansyen Egzamen Leta 9yèm <span class="vip-tag">VIP</span></button>
-            </div>
+<main class="container">
+  <section id="homePage">
+    <div class="card border-blue">
+      <h2>📘 9ème Année Fondamentale</h2>
+      <p>Mathématiques, Français, Sciences Exp., Sciences Sociales.</p>
+      <button class="btn btn-blue" onclick="goQuiz('9eme')">Commencer le Test (9e)</button>
+      <button class="btn btn-outline" onclick="openVip('9eme')">Anciens Examens d'État <span class="vip-tag">VIP</span></button>
+    </div>
 
-            <div class="card border-red">
-                <h2>🎓 NS4 - Bakaloreya (Serye MENFP)</h2>
-                <p>Chwazi serye ou : <strong>SMP • SVT • SES • LLA</strong> (Kou + Egzamen Blan).</p>
-                <div class="series-grid">
-                    <button class="btn btn-sm" onclick="startQuiz('smp')">SMP</button>
-                    <button class="btn btn-sm" onclick="startQuiz('svt')">SVT</button>
-                    <button class="btn btn-sm" onclick="startQuiz('ses')">SES</button>
-                    <button class="btn btn-sm" onclick="startQuiz('lla')">LLA</button>
-                </div>
-                <button class="btn btn-outline" onclick="openVipContent('ns4_vip')">Tout Egzamen & PDF NS4 <span class="vip-tag">VIP</span></button>
-            </div>
+    <div class="card border-red">
+      <h2>🎓 NS4 - Baccalauréat (MENFP)</h2>
+      <p>Séries : <strong>SMP • SVT • SES • LLA</strong></p>
+      <div class="series-grid">
+        <button class="btn btn-sm" onclick="goQuiz('smp')">SMP</button>
+        <button class="btn btn-sm" onclick="goQuiz('svt')">SVT</button>
+        <button class="btn btn-sm" onclick="goQuiz('ses')">SES</button>
+        <button class="btn btn-sm" onclick="goQuiz('lla')">LLA</button>
+      </div>
+      <button class="btn btn-outline" onclick="openVip('smp')">Examens Blancs NS4 <span class="vip-tag">VIP</span></button>
+    </div>
 
-            <div class="card border-green">
-                <h2>🏛️ Konkou Inivèsite (UEH & Lòt)</h2>
-                <p>Preparasyon pou : Medsin (FMP), Jeni (FDS), Dwa (FDSE), Agronomi (FAMV).</p>
-                <button class="btn btn-blue" onclick="startQuiz('univ')">Tès Gratis (Konkou UEH)</button>
-                <button class="btn btn-outline" onclick="openVipContent('univ_vip')">Similasyon Konkou Fakilte <span class="vip-tag">VIP</span></button>
-            </div>
-        </section>
+    <div class="card border-green">
+      <h2>🏛️ Concours Université (UEH)</h2>
+      <p>Médecine, Génie, Droit, Agronomie : Culture générale.</p>
+      <button class="btn btn-blue" onclick="goQuiz('univ')">Test Concours UEH</button>
+      <button class="btn btn-outline" onclick="openVip('univ')">Simulations Facultés <span class="vip-tag">VIP</span></button>
+    </div>
+  </section>
+    <section id="quizPage" style="display:none;">
+    <div class="quiz-top">
+      <span id="qTitle">Examen</span>
+      <span id="liveScore" style="color:#10B981;">Note : 0 / 5</span>
+    </div>
+    <div class="card border-blue">
+      <p id="qCount" class="q-count">Question 1 / 5</p>
+      <h3 id="qText" class="q-text"></h3>
+      <div id="qOptions"></div>
+      <div id="fbBox" style="display:none; padding:10px; border-radius:8px; font-weight:bold; margin-top:10px; text-align:center;"></div>
+      <div id="qExp" class="explanation" style="display:none;"></div>
+      <button id="btnNext" class="btn btn-blue" style="display:none; margin-top:15px;" onclick="nextQ()">Question Suivante ➡️</button>
+    </div>
+    <button class="btn btn-outline" onclick="goHome()">⬅️ Retour à l'Accueil</button>
+  </section>
 
-        <section id="quizPage" style="display:none;">
-            <div class="quiz-top">
-                <span id="qTitle">Examen</span>
-                <span id="liveScore" style="color:#10B981; font-weight:bold;">Note : 0 / 8</span>
-            </div>
-            <div class="card border-blue">
-                <p id="qCount" class="q-count">Question 1/8</p>
-                <h3 id="qText" class="q-text"></h3>
-                <div id="qOptions"></div>
-                <div id="feedbackBanner" style="display:none; padding:10px; border-radius:8px; font-weight:bold; margin-top:10px; text-align:center;"></div>
-                <div id="qExp" class="explanation" style="display:none;"></div>
-                <button id="btnNext" class="btn btn-blue" style="display:none; margin-top:15px;" onclick="nextQ()">Question Suivante ➡️</button>
-            </div>
-            <button class="btn btn-outline" onclick="goHome()">⬅️ Retounen nan Akèy</button>
-        </section>
+  <section id="resultPage" style="display:none;">
+    <div class="card border-green" style="text-align:center;">
+      <h2 style="color:#0038A8;">📋 Bulletin de Correction</h2>
+      <div id="resPct" style="font-size:2.4rem; font-weight:bold; color:#10B981; margin:15px 0;">0 / 100</div>
+      <p id="resTxt" style="font-weight:bold;"></p>
+      <div id="resMent" style="padding:10px; border-radius:8px; margin:15px 0; font-weight:bold;"></div>
+      <button class="btn btn-blue" id="btnNewSet">🔄 Nouvelles Questions</button>
+      <button class="btn btn-outline" onclick="goHome()">🏠 Retour à l'Accueil</button>
+    </div>
+  </section>
+  <section id="vipPage" style="display:none;">
+    <div class="card border-orange">
+      <h2 style="color:#FF6B00;">🟠 Abonnement VIP - 100 Gds / 30 Jours</h2>
+      <div class="natcash-box">
+        <p><strong>1. Envoyez 100 Gds sur Natcash :</strong></p>
+        <p style="font-size:1.1rem; color:#0038A8; font-weight:bold; margin:5px 0;">📱 +509 42 40 22 15</p>
+        <a href="https://wa.me" target="_blank" class="btn" style="background:#25D366; color:white; text-decoration:none; margin-top:8px;">💬 Envoyer la preuve sur WhatsApp</a>
+      </div>
+      <input type="tel" id="userPhone" class="input-code" placeholder="Votre numéro (ex: 37124567)" maxlength="8">
+      <input type="text" id="vipCode" class="input-code" placeholder="Votre code (ex: BK-7531)">
+      <button class="btn btn-orange" onclick="checkVip()">Activer VIP (30 Jours)</button>
+      <p id="vipMsg" class="vip-msg"></p>
+    </div>
+  </section>
+</main>
 
-        <section id="resultPage" style="display:none;">
-            <div class="card border-green" style="text-align:center;">
-                <h2 style="color:#0038A8; font-size:1.3rem;">📋 Bulletin de Correction</h2>
-                <p id="resExamTitle" style="font-weight:bold; color:#64748B;"></p>
-                <div id="resScoreBig" style="font-size:2.5rem; font-weight:bold; color:#10B981; margin:15px 0;">0 / 100</div>
-                <p id="resDetail" style="font-size:1rem; font-weight:bold;"></p>
-                <div id="resMention" style="padding:10px; border-radius:8px; margin:15px 0; font-weight:bold;"></div>
-                <button class="btn btn-blue" id="btnRetryNew">🔄 Nouvo Seri Kesyon (San Repetisyon)</button>
-                <button class="btn btn-outline" onclick="goHome()">🏠 Retounen nan Akèy</button>
-            </div>
-        </section>
+<nav class="bottom-nav">
+  <button onclick="goHome()">🏠 Accueil</button>
+  <button onclick="goVip()">🟠 Abonnement (100 Gds)</button>
+</nav>
+<script>
+const db = {
+  '9eme': [
+    { id: "9_1", q: "[MENFP - Histoire] Quel traité de 1697 a divisé l'île d'Haïti ?", o: ["Traité de Ryswick", "Traité de Bâle", "Traité de Paris"], a: 0, e: "Le traité de Ryswick (1697) a cédé Saint-Domingue à la France." },
+    { id: "9_2", q: "[MENFP - Français] Complétez : « Il faut que nous _____ nos devoirs. »", o: ["faisons", "fassions", "ferons"], a: 1, e: "Après « Il faut que », on met le subjonctif : fassions." },
+    { id: "9_3", q: "[MENFP - Sciences] Gaz représentant 78 % de l'atmosphère ?", o: ["Dioxygène (O2)", "Diazote (N2)", "CO2"], a: 1, e: "L'air contient 78 % de diazote (N2)." }
+  ],
+  'smp': [
+    { id: "s_1", q: "[MENFP NS4 - Physique] Unité SI de la force ?", o: ["Joule", "Watt", "Newton"], a: 2, e: "L'unité internationale de la force est le Newton (N)." },
+    { id: "s_2", q: "[MENFP NS4 - Chimie] Formule de l'acide sulfurique ?", o: ["HCl", "H2SO4", "NaOH"], a: 1, e: "Sa formule est H2SO4." }
+  ],
+  'svt': [
+    { id: "v_1", q: "[MENFP NS4 - Biologie] Organite produisant l'ATP ?", o: ["Ribosome", "Mitochondrie", "Noyau"], a: 1, e: "La mitochondrie produit l'énergie cellulaire." }
+  ],
+  'ses': [
+    { id: "e_1", q: "[MENFP NS4 - Histoire] Fin de l'occupation américaine en Haïti ?", o: ["1915", "1934", "1957"], a: 1, e: "Départ des troupes en août 1934." }
+  ],
+  'lla': [
+    { id: "l_1", q: "[MENFP NS4 - Philosophie] Qui a dit : « L'existence précède l'essence » ?", o: ["Descartes", "Jean-Paul Sartre", "Platon"], a: 1, e: "Principe de Jean-Paul Sartre." }
+  ],
+  'univ': [
+    { id: "u_1", q: "[Concours UEH] Nombre de départements en Haïti ?", o: ["9", "10", "11"], a: 1, e: "Haïti compte 10 départements." }
+  ]
+};
 
-        <section id="vipPage" style="display:none;">
-            <div class="card border-orange">
-                <h2 style="color:#FF6B00;">🟠 Abònman VIP - 100 Goud / 30 Jou</h2>
-                <p>Debloke 6000+ kesyon ak ansyen egzamen leta yo pou <strong>30 jou</strong>.</p>
-                <div class="natcash-box">
-                    <p><strong>Etap 1 : Peye 100 Goud sou Natcash</strong></p>
-                    <p style="font-size:1.15rem; color:#0038A8; font-weight:bold; margin:5px 0;">📱 +509 42 40 22 15</p>
-                    <p><strong>Etap 2 : Voye prèv peman an sou WhatsApp</strong></p>
-                    <a href="https://wa.me" target="_blank" class="btn" style="background:#25D366; color:white; text-decoration:none; margin-top:8px;">
-                        💬 Voye Prèv la sou WhatsApp
-                    </a>
-                </div>
-                <p style="font-size:0.85rem; text-align:center; margin-bottom:6px;"><strong>Etap 3 : Antre nimewo w ak kòd ou resevwa a :</strong></p>
-                <input type="tel" id="userPhone" class="input-code" placeholder="Nimewo telefòn ou (ex: 37124567)" maxlength="8">
-                <input type="text" id="vipCode" class="input-code" placeholder="Kòd pèsonèl ou (ex: BK-4829)">
-                <button class="btn btn-orange" onclick="checkVip()">Aktive Abònman 30 Jou Mwen</button>
-                <p id="vipMsg" class="vip-msg"></p>
-            </div>
-        </section>
-    </main>
+function genMath(cat) {
+  let res = [];
+  for (let i = 0; i < 4; i++) {
+    let a = Math.floor(Math.random() * 6) + 2, x = Math.floor(Math.random() * 9) + 1, b = Math.floor(Math.random() * 10) + 1;
+    let id = cat + "_" + Date.now() + "_" + i + "_" + Math.random();
+    if (cat === '9eme') {
+      let c = a * x + b, ans = "x = " + x;
+      let o = [ans, "x = " + (x + 2), "x = " + (x + 4)].sort(() => Math.random() - 0.5);
+      res.push({ id: id, q: "[Math 9e] Résolvez : " + a + "x + " + b + " = " + c, o: o, a: o.indexOf(ans), e: a + "x = " + (c - b) + " ⇒ x = " + x });
+    } else {
+      let ans = (3 * a) + "x² + " + (2 * b) + "x";
+      let o = [ans, a + "x² + " + b + "x", (2 * a) + "x² + " + b].sort(() => Math.random() - 0.5);
+      res.push({ id: id, q: "[Math NS4] Dérivée de f(x) = " + a + "x³ + " + b + "x² ?", o: o, a: o.indexOf(ans), e: "f'(x) = " + ans });
+    }
+  }
+  return res;
+}
+    function checkSub() {
+  const s = JSON.parse(localStorage.getItem('bako_haiti_sub'));
+  const b = document.getElementById('statusBadge'), e = document.getElementById('expiryInfo');
+  if (!s) { b.textContent = "Kont Gratis"; return false; }
+  const left = (30 * 86400000) - (Date.now() - s.activatedAt);
+  if (left <= 0) { localStorage.removeItem('bako_haiti_sub'); b.textContent = "Abònman Ekspire"; return false; }
+  b.textContent = "Kont VIP Aktif ⭐ (" + s.phone + ")"; b.classList.add('vip-active');
+  e.textContent = "Rete " + Math.ceil(left / 86400000) + " jou"; return true;
+}
+checkSub();
 
-    <nav class="bottom-nav">
-        <button id="tabHome" class="active" onclick="goHome()">🏠 Akèy</button>
-        <button id="tabVip" onclick="goVip()">🟠 Abònman (100 Gds)</button>
-    </nav>
+function checkVip() {
+  const ph = document.getElementById('userPhone').value.replace(/\D/g, '');
+  const cd = document.getElementById('vipCode').value.trim().toUpperCase();
+  const msg = document.getElementById('vipMsg');
+  if (ph.length !== 8) { msg.style.color = "#D21034"; msg.textContent = "❌ Antre 8 chif."; return; }
+  if (cd === "BK-" + (((parseInt(ph, 10) * 7) + 2026) % 9000 + 1000)) {
+    localStorage.setItem('bako_haiti_sub', JSON.stringify({ phone: ph, activatedAt: Date.now() }));
+    checkSub(); msg.style.color = "#10B981"; msg.textContent = "✅ VIP Aktive !";
+    setTimeout(goHome, 1000);
+  } else { msg.style.color = "#D21034"; msg.textContent = "❌ Kòd pa bon."; }
+}
 
-    <script src="script.js?v=4"></script>
+function openVip(cat) {
+  if (checkSub()) goQuiz(cat);
+  else { alert("🔒 Abonnement VIP requis (100 Gds / 30 jours)."); goVip(); }
+}
+
+let list = [], idx = 0, score = 0, curCat = '';
+function hideAll() { ['homePage','quizPage','resultPage','vipPage'].forEach(id => document.getElementById(id).style.display = 'none'); }
+function goHome() { hideAll(); document.getElementById('homePage').style.display = 'block'; }
+function goVip() { hideAll(); document.getElementById('vipPage').style.display = 'block'; }
+
+function goQuiz(cat) {
+  curCat = cat;
+  let seen = JSON.parse(localStorage.getItem('bako_seen') || '[]');
+  let pool = (db[cat] || db['9eme']).concat(genMath(cat));
+  let fresh = pool.filter(q => !seen.includes(q.id));
+  if (fresh.length < 3) { localStorage.removeItem('bako_seen'); fresh = pool; }
+  list = fresh.sort(() => Math.random() - 0.5).slice(0, 5);
+  idx = 0; score = 0;
+  document.getElementById('qTitle').textContent = "Examen " + cat.toUpperCase();
+  document.getElementById('liveScore').textContent = "Note : 0 / " + list.length;
+  hideAll(); document.getElementById('quizPage').style.display = 'block';
+  showQ();
+}
+
+function showQ() {
+  const q = list[idx];
+  let seen = JSON.parse(localStorage.getItem('bako_seen') || '[]');
+  if (!seen.includes(q.id)) { seen.push(q.id); localStorage.setItem('bako_seen', JSON.stringify(seen)); }
+  document.getElementById('qCount').textContent = "Question " + (idx + 1) + " / " + list.length;
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('fbBox').style.display = 'none';
+  document.getElementById('qExp').style.display = 'none';
+  document.getElementById('btnNext').style.display = 'none';
+  const box = document.getElementById('qOptions'); box.innerHTML = '';
+  q.o.forEach((opt, i) => {
+    const b = document.createElement('button'); b.className = 'option-btn'; b.textContent = opt;
+    b.onclick = () => {
+      document.querySelectorAll('.option-btn').forEach(x => x.disabled = true);
+      const fb = document.getElementById('fbBox'); fb.style.display = 'block';
+      if (i === q.a) {
+        b.classList.add('correct'); score++;
+        document.getElementById('liveScore').textContent = "Note : " + score + " / " + list.length;
+        fb.style.background = "#D1FAE5"; fb.style.color = "#065F46"; fb.textContent = "✅ Bonne réponse ! (+1 point)";
+      } else {
+        b.classList.add('wrong'); document.querySelectorAll('.option-btn')[q.a].classList.add('correct');
+        fb.style.background = "#FEE2E2"; fb.style.color = "#991B1B"; fb.textContent = "❌ Mauvaise réponse (0 point)";
+      }
+      document.getElementById('qExp').innerHTML = "<strong>💡 Explication :</strong> " + q.e;
+      document.getElementById('qExp').style.display = 'block'; document.getElementById('btnNext').style.display = 'block';
+    };
+    box.appendChild(b);
+  });
+}
+
+function nextQ() {
+  idx++;
+  if (idx < list.length) showQ();
+  else {
+    hideAll(); document.getElementById('resultPage').style.display = 'block';
+    let pct = Math.round((score / list.length) * 100);
+    document.getElementById('resPct').textContent = pct + " / 100";
+    document.getElementById('resTxt').textContent = "Bonnes réponses : " + score + " sur " + list.length;
+    const m = document.getElementById('resMent');
+    m.style.background = pct >= 50 ? "#D1FAE5" : "#FEE2E2";
+    m.style.color = pct >= 50 ? "#065F46" : "#991B1B";
+    m.textContent = pct >= 80 ? "🏆 Mention : TRÈS BIEN" : (pct >= 50 ? "👍 Mention : ADMIS" : "❌ Résultat : AJOURNÉ");
+    document.getElementById('btnNewSet').onclick = () => goQuiz(curCat);
+  }
+}
+</script>
 </body>
 </html>
