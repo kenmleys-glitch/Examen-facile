@@ -394,7 +394,10 @@ function startSubjectQuiz(subId, subName) {
   curSubId = subId;
   curSubName = subName;
   let seen = JSON.parse(localStorage.getItem('bako_seen') || '[]');
-  let pool = (subId === '9_math' || subId === 'smp_math') ? genMathOnly(subId) : (subjectQuestions[subId] || []);
+    let baseQ = subjectQuestions[subId] || [];
+  let ext9 = (typeof extra9eme !== 'undefined' && extra9eme[subId]) ? extra9eme[subId] : [];
+  let extNS = (typeof extraNS4UEH !== 'undefined' && extraNS4UEH[subId]) ? extraNS4UEH[subId] : [];
+  let pool = (subId === '9_math' || subId === 'smp_math') ? genMathOnly(subId) : baseQ.concat(ext9, extNS);
   let fresh = pool.filter(q => !seen.includes(q.id));
   if (fresh.length === 0) { localStorage.removeItem('bako_seen'); fresh = pool; }
   list = fresh.sort(() => Math.random() - 0.5).slice(0, 5);
