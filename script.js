@@ -9,7 +9,7 @@ const bank = {
     { id: "smp_2", q: "[MENFP NS4 - Chimie] Formule de l'acide sulfurique ?", o: ["HCl", "H2SO4", "NaOH"], a: 1, e: "Sa formule chimique est H2SO4." }
   ],
   'svt': [
-    { id: "svt_1", q: "[MENFP NS4 - Biologie] Organite produisant l'énergie (ATP) ?", o: ["Ribosome", "Mitokondrie", "Noyau"], a: 1, e: "La mitochondrie produit l'énergie cellulaire (ATP)." }
+    { id: "svt_1", q: "[MENFP NS4 - Biologie] Organite produisant l'énergie (ATP) ?", o: ["Ribosome", "Mitochondrie", "Noyau"], a: 1, e: "La mitochondrie produit l'énergie cellulaire (ATP)." }
   ],
   'ses': [
     { id: "ses_1", q: "[MENFP NS4 - Histoire] Année de la fin de l'occupation américaine en Haïti ?", o: ["1915", "1934", "1957"], a: 1, e: "Les troupes américaines ont quitté Haïti en août 1934." }
@@ -109,4 +109,4 @@ function nextQ() {
   idx++;
   if (idx < qList.length) showQ();
   else { alert("🎉 Test terminé ! Note : " + score + " / " + qList.length); goHome(); }
-     }
+        }
