@@ -68,11 +68,18 @@ function openVipContent(sec) {
   else { alert("🔒 Abònman VIP obligatwa (100 Gds / 30 jou)."); goVip(); }
 }
 
-let qList = [], idx = 0, score = 0;
-function goHome() { document.getElementById('homePage').style.display = 'block'; document.getElementById('quizPage').style.display = 'none'; document.getElementById('vipPage').style.display = 'none'; }
-function goVip() { document.getElementById('homePage').style.display = 'none'; document.getElementById('quizPage').style.display = 'none'; document.getElementById('vipPage').style.display = 'block'; }
+let qList = [], idx = 0, score = 0, activeCat = '';
+function hideAll() {
+  document.getElementById('homePage').style.display = 'none';
+  document.getElementById('quizPage').style.display = 'none';
+  document.getElementById('resultPage').style.display = 'none';
+  document.getElementById('vipPage').style.display = 'none';
+}
+function goHome() { hideAll(); document.getElementById('homePage').style.display = 'block'; }
+function goVip() { hideAll(); document.getElementById('vipPage').style.display = 'block'; }
 
 function startQuiz(cat) {
+  activeCat = cat;
   let seen = JSON.parse(localStorage.getItem('bako_seen') || '[]');
   let pool = (bank[cat] || bank['9eme']).concat(makeDynamic(cat));
   let fresh = pool.filter(q => !seen.includes(q.id));
@@ -80,7 +87,8 @@ function startQuiz(cat) {
   qList = fresh.sort(() => Math.random() - 0.5).slice(0, 8);
   idx = 0; score = 0;
   document.getElementById('qTitle').textContent = "Examen " + cat.toUpperCase();
-  document.getElementById('homePage').style.display = 'none'; document.getElementById('vipPage').style.display = 'none'; document.getElementById('quizPage').style.display = 'block';
+  document.getElementById('liveScore').textContent = "Note : 0 / " + qList.length;
+  hideAll(); document.getElementById('quizPage').style.display = 'block';
   showQ();
 }
 
@@ -90,16 +98,31 @@ function showQ() {
   if (!seen.includes(q.id)) { seen.push(q.id); localStorage.setItem('bako_seen', JSON.stringify(seen)); }
   document.getElementById('qCount').textContent = "Question " + (idx + 1) + " / " + qList.length;
   document.getElementById('qText').textContent = q.q;
-  document.getElementById('qExp').style.display = 'none'; document.getElementById('btnNext').style.display = 'none';
+  document.getElementById('feedbackBanner').style.display = 'none';
+  document.getElementById('qExp').style.display = 'none';
+  document.getElementById('btnNext').style.display = 'none';
   const box = document.getElementById('qOptions'); box.innerHTML = '';
   q.o.forEach((opt, i) => {
     const b = document.createElement('button'); b.className = 'option-btn'; b.textContent = opt;
     b.onclick = () => {
       document.querySelectorAll('.option-btn').forEach(x => x.disabled = true);
-      if (i === q.a) { b.classList.add('correct'); score++; }
-      else { b.classList.add('wrong'); document.querySelectorAll('.option-btn')[q.a].classList.add('correct'); }
+      const fb = document.getElementById('feedbackBanner');
+      fb.style.display = 'block';
+      if (i === q.a) {
+        b.classList.add('correct');
+        score++;
+        document.getElementById('liveScore').textContent = "Note : " + score + " / " + qList.length;
+        fb.style.background = "#D1FAE5"; fb.style.color = "#065F46";
+        fb.textContent = "✅ Bonne réponse ! (+1 point)";
+      } else {
+        b.classList.add('wrong');
+        document.querySelectorAll('.option-btn')[q.a].classList.add('correct');
+        fb.style.background = "#FEE2E2"; fb.style.color = "#991B1B";
+        fb.textContent = "❌ Mauvaise réponse (0 point)";
+      }
       document.getElementById('qExp').innerHTML = "<strong>💡 Explication :</strong> " + q.e;
-      document.getElementById('qExp').style.display = 'block'; document.getElementById('btnNext').style.display = 'block';
+      document.getElementById('qExp').style.display = 'block';
+      document.getElementById('btnNext').style.display = 'block';
     };
     box.appendChild(b);
   });
@@ -107,6 +130,20 @@ function showQ() {
 
 function nextQ() {
   idx++;
-  if (idx < qList.length) showQ();
-  else { alert("🎉 Test terminé ! Note : " + score + " / " + qList.length); goHome(); }
-        }
+  if (idx < qList.length) {
+    showQ();
+  } else {
+    hideAll();
+    document.getElementById('resultPage').style.display = 'block';
+    let pct = Math.round((score / qList.length) * 100);
+    document.getElementById('resExamTitle').textContent = "Examen " + activeCat.toUpperCase();
+    document.getElementById('resScoreBig').textContent = pct + " / 100";
+    document.getElementById('resDetail').textContent = "Bonnes réponses : " + score + " sur " + qList.length;
+    const m = document.getElementById('resMention');
+    if (pct >= 80) { m.style.background = "#D1FAE5"; m.style.color = "#065F46"; m.textContent = "🏆 Mention : TRÈS BIEN (Admis avec brio)"; }
+    else if (pct >= 60) { m.style.background = "#DBEAFE"; m.style.color = "#1E40AF"; m.textContent = "👍 Mention : ASSEZ BIEN (Admis)"; }
+    else if (pct >= 50) { m.style.background = "#FEF3C7"; m.style.color = "#92400E"; m.textContent = "⚠️ Mention : PASSABLE (Doit renforcer)"; }
+    else { m.style.background = "#FEE2E2"; m.style.color = "#991B1B"; m.textContent = "❌ Résultat : AJOURNÉ (Révisez les explications)"; }
+    document.getElementById('btnRetryNew').onclick = () => startQuiz(activeCat);
+  }
+}
