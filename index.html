@@ -47,16 +47,29 @@
         <section id="quizPage" style="display:none;">
             <div class="quiz-top">
                 <span id="qTitle">Examen</span>
-                <span id="qTimer" class="timer">⏱️ 03:00</span>
+                <span id="liveScore" style="color:#10B981; font-weight:bold;">Note : 0 / 8</span>
             </div>
             <div class="card border-blue">
                 <p id="qCount" class="q-count">Question 1/8</p>
                 <h3 id="qText" class="q-text"></h3>
                 <div id="qOptions"></div>
+                <div id="feedbackBanner" style="display:none; padding:10px; border-radius:8px; font-weight:bold; margin-top:10px; text-align:center;"></div>
                 <div id="qExp" class="explanation" style="display:none;"></div>
                 <button id="btnNext" class="btn btn-blue" style="display:none; margin-top:15px;" onclick="nextQ()">Question Suivante ➡️</button>
             </div>
             <button class="btn btn-outline" onclick="goHome()">⬅️ Retounen nan Akèy</button>
+        </section>
+
+        <section id="resultPage" style="display:none;">
+            <div class="card border-green" style="text-align:center;">
+                <h2 style="color:#0038A8; font-size:1.3rem;">📋 Bulletin de Correction</h2>
+                <p id="resExamTitle" style="font-weight:bold; color:#64748B;"></p>
+                <div id="resScoreBig" style="font-size:2.5rem; font-weight:bold; color:#10B981; margin:15px 0;">0 / 100</div>
+                <p id="resDetail" style="font-size:1rem; font-weight:bold;"></p>
+                <div id="resMention" style="padding:10px; border-radius:8px; margin:15px 0; font-weight:bold;"></div>
+                <button class="btn btn-blue" id="btnRetryNew">🔄 Nouvo Seri Kesyon (San Repetisyon)</button>
+                <button class="btn btn-outline" onclick="goHome()">🏠 Retounen nan Akèy</button>
+            </div>
         </section>
 
         <section id="vipPage" style="display:none;">
@@ -85,6 +98,6 @@
         <button id="tabVip" onclick="goVip()">🟠 Abònman (100 Gds)</button>
     </nav>
 
-    <script src="script.js?v=3"></script>
+    <script src="script.js?v=4"></script>
 </body>
 </html>
