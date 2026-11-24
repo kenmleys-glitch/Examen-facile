@@ -108,3 +108,12 @@ const quizDatabase = {
         ]
     }
 };
+function sendWhatsAppProof() {
+    const phoneInput = document.getElementById('userPhone').value.replace(/\D/g, '');
+    if (phoneInput.length !== 8) {
+        alert("Tanpri ekri nimewo telefòn 8 chif ou anvan ou voye mesaj WhatsApp la !");
+        return;
+    }
+    const text = encodeURIComponent("Bonjou, mwen fèk peye 100 Gds sou Natcash (+509 4240-2215) pou abònman VIP BAKO HAITI. Men nimewo telefòn mwen pou kòd la : " + phoneInput);
+    window.open("https://wa.me" + text, "_blank");
+}
