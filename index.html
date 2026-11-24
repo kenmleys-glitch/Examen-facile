@@ -62,33 +62,31 @@
 
             <button class="btn btn-outline" onclick="goHome()">⬅️ Retounen nan Akèy</button>
         </section>
-
         <!-- EKRAN 3 : VIP NATCASH + BOUTON WHATSAPP -->
         <section id="vipPage" style="display:none;">
             <div class="card border-orange">
                 <h2 style="color:#FF6B00;">🟠 Abònman VIP - 100 Goud / 30 Jou</h2>
-                <p>Debloke 6000+ kesyon ak ansyen egzamen leta yo pou <strong>30 jou</strong> (mare ak nimewo telefòn ou).</p>
+                <p>Debloke 6000+ kesyon ak ansyen egzamen leta yo pou <strong>30 jou</strong>.</p>
                 
                 <div class="natcash-box">
-                    <p><strong>Etap pou peye ak Natcash :</strong></p>
-                    <ol>
-                        <li>Voye <strong>100 Goud</strong> sou Natcash : <br><strong style="font-size:1.1rem; color:#0038A8;">+509 42 40 22 15</strong></li>
-                        <li>Antre nimewo telefòn ou anba a epi peze bouton vèt WhatsApp la pou voye prèv la :</li>
-                    </ol>
+                    <p><strong>Etap 1 : Peye 100 Goud sou Natcash</strong></p>
+                    <p style="font-size:1.15rem; color:#0038A8; font-weight:bold; margin:5px 0;">📱 +509 42 40 22 15</p>
+                    <p><strong>Etap 2 : Voye prèv peman an sou WhatsApp</strong></p>
+                    <a href="https://wa.me/50942402215"
+                       target="_blank" 
+                       style="display:block; background:#25D366; color:white; text-align:center; padding:12px; border-radius:8px; font-weight:bold; text-decoration:none; margin-top:8px;">
+                       💬 Voye Prèv la sou WhatsApp (+509 4240-2215)
+                    </a>
                 </div>
 
+                <p style="font-size:0.85rem; text-align:center; margin-bottom:6px;"><strong>Etap 3 : Antre nimewo w ak kòd ou resevwa a :</strong></p>
                 <input type="tel" id="userPhone" class="input-code" placeholder="Nimewo telefòn ou (ex: 37124567)" maxlength="8">
-                
-                <button class="btn" style="background:#25D366; color:white; margin-bottom:15px;" onclick="sendWhatsAppProof()">
-                    💬 Voye Prèv Peman sou WhatsApp
-                </button>
-
-                <p style="font-size:0.85rem; text-align:center; margin-bottom:6px;"><strong>Ou deja gen kòd ou ? Antre l anba a :</strong></p>
                 <input type="text" id="vipCode" class="input-code" placeholder="Kòd pèsonèl ou (ex: BK-4829)">
                 <button class="btn btn-orange" onclick="checkVip()">Aktive Abònman 30 Jou Mwen</button>
                 <p id="vipMsg" class="vip-msg"></p>
             </div>
         </section>
+        
     </main>
 
     <nav class="bottom-nav">
