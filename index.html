@@ -139,6 +139,9 @@
   <button onclick="openRankPage()">🏆 Classement</button>
   <button onclick="goVip()">🟠 Abonnement (100 Gds)</button>
     </nav>
+  <script src="q_9eme.js"></script>
+<script src="q_ns4_ueh.js"></script>
+<script src="math_engine.js"></script>
     <script>
 const classSubjects = {
   '9eme': {
@@ -400,7 +403,7 @@ function startSubjectQuiz(subId, subName) {
   let pool = (subId === '9_math' || subId === 'smp_math') ? genMathOnly(subId) : baseQ.concat(ext9, extNS);
   let fresh = pool.filter(q => !seen.includes(q.id));
   if (fresh.length === 0) { localStorage.removeItem('bako_seen'); fresh = pool; }
-  list = fresh.sort(() => Math.random() - 0.5).slice(0, 5);
+  list = fresh.sort(() => Math.random() - 0.5).slice(0, 20);
   idx = 0; score = 0;
   document.getElementById('qTitle').textContent = subName;
   document.getElementById('liveScore').textContent = "Note : 0 / " + list.length;
