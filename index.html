@@ -10,22 +10,29 @@
 
 <header class="header">
   <h1>🇭🇹 BAKO HAITI</h1>
-  <p>Évaluations par Matière (Programme MENFP)</p>
+  <p>Évaluations MENFP & Classement National</p>
   <div id="statusBadge" class="badge">Kont Gratis</div>
   <div id="expiryInfo" class="expiry-text"></div>
 </header>
 
 <main class="container">
+  <!-- EKRAN 1 : AKEY -->
   <section id="homePage">
+    <div id="profileBanner" class="card border-orange" style="padding:12px;">
+      <p style="margin-bottom:6px;"><strong>👤 Identité :</strong> <span id="displayStudentName">Non enregistré</span></p>
+      <p style="margin-bottom:8px; font-size:0.82rem;"><strong>🏫 École :</strong> <span id="displayStudentSchool">---</span></p>
+      <button class="btn btn-sm" style="background:#0038A8; width:100%; padding:8px;" onclick="openProfileModal()">✏️ Modifier mon Nom & mon École</button>
+    </div>
+
     <div class="card border-blue">
       <h2>📘 9ème Année Fondamentale</h2>
-      <p>Choisissez une matière officielle pour démarrer votre évaluation.</p>
+      <p>Mathématiques, Français, Sciences Exp., Sciences Sociales.</p>
       <button class="btn btn-blue" onclick="openSubjects('9eme')">Voir les Matières (9ème)</button>
     </div>
 
     <div class="card border-red">
       <h2>🎓 NS4 - Baccalauréat (MENFP)</h2>
-      <p>Sélectionnez votre série officielle :</p>
+      <p>Séries officielles : <strong>SMP • SVT • SES • LLA</strong></p>
       <div class="series-grid">
         <button class="btn btn-sm" onclick="openSubjects('smp')">SMP</button>
         <button class="btn btn-sm" onclick="openSubjects('svt')">SVT</button>
@@ -36,21 +43,52 @@
 
     <div class="card border-green">
       <h2>🏛️ Concours Université (UEH)</h2>
-      <p>Préparation par domaine : Culture Générale, Logique, Sciences.</p>
+      <p>Médecine, Génie, Droit, Agronomie : Culture générale.</p>
       <button class="btn btn-blue" onclick="openSubjects('univ')">Matières Concours UEH</button>
     </div>
   </section>
-    <!-- NOUVO EKRAN : CHWAZI MATYÈ A -->
+
+  <!-- EKRAN KLASMAN PIBLIK (KONPETISYON NASYONAL) -->
+  <section id="rankPage" style="display:none;">
+    <div class="card border-orange">
+      <h2 style="color:#FF6B00;">🏆 Classement Public National</h2>
+      <p>Position officielle des élèves et de leurs écoles par niveau :</p>
+      <div style="display:flex; gap:5px; margin-bottom:12px;">
+        <button class="btn btn-sm" style="background:#0038A8;" onclick="renderLeaderboard('9eme')">9ème</button>
+        <button class="btn btn-sm" style="background:#D21034;" onclick="renderLeaderboard('ns4')">NS4</button>
+        <button class="btn btn-sm" style="background:#10B981;" onclick="renderLeaderboard('univ')">UEH</button>
+      </div>
+      <div id="leaderboardList"></div>
+    </div>
+  </section>
+    <!-- EKRAN FÒM IDANTITE ELÈV LA (NON, LEKÒL, VIL, NIVO) -->
+  <section id="profilePage" style="display:none;">
+    <div class="card border-blue">
+      <h2>👤 Mon Identité Officielle</h2>
+      <p>Ces informations seront publiques dans le classement national :</p>
+      <input type="text" id="inpName" class="input-code" style="text-transform:none;" placeholder="Nom et Prénom (ex: Jean Marc)">
+      <input type="text" id="inpSchool" class="input-code" style="text-transform:none;" placeholder="Nom de ton École (ex: Lycée Toussaint)">
+      <input type="text" id="inpCity" class="input-code" style="text-transform:none;" placeholder="Ville / Commune (ex: Thomassique, Port-au-Prince)">
+      <select id="inpLevel" class="input-code" style="text-transform:none; background:white;">
+        <option value="9eme">Niveau : 9ème Année Fondamentale</option>
+        <option value="ns4">Niveau : NS4 (Baccalauréat)</option>
+        <option value="univ">Niveau : Concours Université (UEH)</option>
+      </select>
+      <button class="btn btn-blue" onclick="saveStudentProfile()">💾 Enregistrer mon Profil Public</button>
+    </div>
+  </section>
+
+  <!-- EKRAN MATYÈ YO -->
   <section id="subjectPage" style="display:none;">
     <div class="card border-blue">
       <h2 id="subClassTitle">Matières Officielles</h2>
-      <p>Sélectionnez une matière pour commencer l'évaluation :</p>
+      <p>Sélectionnez une matière pour gagner des points au classement :</p>
       <div id="subjectButtonsList"></div>
     </div>
     <button class="btn btn-outline" onclick="goHome()">⬅️ Retour aux Classes</button>
   </section>
 
-  <!-- EKRAN EGZAMEN PA MATYÈ -->
+  <!-- EKRAN EGZAMEN -->
   <section id="quizPage" style="display:none;">
     <div class="quiz-top">
       <span id="qTitle">Matière</span>
@@ -70,12 +108,13 @@
   <!-- BILTEN KOREKSYON FINAL -->
   <section id="resultPage" style="display:none;">
     <div class="card border-green" style="text-align:center;">
-      <h2 style="color:#0038A8;">📋 Bulletin de Correction</h2>
+      <h2 style="color:#0038A8;">📋 Bulletin & Points Gagnés</h2>
       <div id="resPct" style="font-size:2.4rem; font-weight:bold; color:#10B981; margin:15px 0;">0 / 100</div>
       <p id="resTxt" style="font-weight:bold;"></p>
       <div id="resMent" style="padding:10px; border-radius:8px; margin:15px 0; font-weight:bold;"></div>
-      <button class="btn btn-blue" id="btnNewSet">🔄 Nouvelle Série (Sans Répétition)</button>
-      <button class="btn btn-outline" onclick="backToSubjects()">📚 Choisir une autre Matière</button>
+      <button class="btn btn-orange" onclick="openRankPage()">🏆 Voir ma Position Publique</button>
+      <button class="btn btn-blue" id="btnNewSet">🔄 Nouvelle Série</button>
+      <button class="btn btn-outline" onclick="backToSubjects()">📚 Autre Matière</button>
     </div>
   </section>
 
@@ -98,7 +137,8 @@
 
 <nav class="bottom-nav">
   <button onclick="goHome()">🏠 Accueil</button>
-  <button onclick="goVip()">🟠 Abonnement (100 Gds)</button>
+  <button onclick="openRankPage()">🏆 Classement</button>
+  <button onclick="goVip()">🟠 VIP (100 Gds)</button>
 </nav>
 <script>
 const classSubjects = {
@@ -202,7 +242,7 @@ const subjectQuestions = {
     { id: "ul_1", q: "[Concours UEH] Complétez la suite logique : 2 - 6 - 18 - 54 - ?", o: ["108", "162", "216"], a: 1, e: "On multiplie chaque terme par 3 : 54 × 3 = 162." }
   ]
 };
-function genMathOnly(subId) {
+  function genMathOnly(subId) {
   let res = [];
   for (let i = 0; i < 6; i++) {
     let a = Math.floor(Math.random() * 6) + 2, x = Math.floor(Math.random() * 9) + 1, b = Math.floor(Math.random() * 10) + 1;
@@ -220,6 +260,80 @@ function genMathOnly(subId) {
   return res;
 }
 
+const defaultCompetitors = [
+  { name: "Jean-Baptiste Marc", school: "Lycée Toussaint Louverture", city: "Port-au-Prince", level: "ns4", pts: 145 },
+  { name: "Pierre-Louis Sarah", school: "Collège Canado-Haïtien", city: "Port-au-Prince", level: "ns4", pts: 130 },
+  { name: "Désir Peterson", school: "Lycée de Thomassique", city: "Thomassique", level: "ns4", pts: 115 },
+  { name: "Joseph Wideline", school: "Institution Sainte-Rose", city: "Port-au-Prince", level: "9eme", pts: 120 },
+  { name: "Charles Stanley", school: "Collège Notre-Dame", city: "Cap-Haïtien", level: "9eme", pts: 95 },
+  { name: "Saint-Fleur Rose", school: "Lycée Anténor Firmin", city: "Port-au-Prince", level: "univ", pts: 160 }
+];
+
+function getProfile() { return JSON.parse(localStorage.getItem('bako_student_profile') || 'null'); }
+
+function updateProfileBanner() {
+  const p = getProfile();
+  if (p) {
+    document.getElementById('displayStudentName').textContent = p.name + " (" + p.pts + " pts)";
+    document.getElementById('displayStudentSchool').textContent = p.school + " - " + p.city;
+  }
+}
+updateProfileBanner();
+function openProfileModal() {
+  const p = getProfile();
+  if (p) {
+    document.getElementById('inpName').value = p.name;
+    document.getElementById('inpSchool').value = p.school;
+    document.getElementById('inpCity').value = p.city;
+    document.getElementById('inpLevel').value = p.level;
+  }
+  hideAll();
+  document.getElementById('profilePage').style.display = 'block';
+}
+
+function saveStudentProfile() {
+  const name = document.getElementById('inpName').value.trim();
+  const school = document.getElementById('inpSchool').value.trim();
+  const city = document.getElementById('inpCity').value.trim();
+  const level = document.getElementById('inpLevel').value;
+  if (!name || !school || !city) { alert("Remplissez votre nom, école et ville !"); return; }
+  const old = getProfile();
+  localStorage.setItem('bako_student_profile', JSON.stringify({ name: name, school: school, city: city, level: level, pts: old ? old.pts : 0 }));
+  updateProfileBanner();
+  alert("✅ Profil enregistré dans le classement public !");
+  goHome();
+}
+
+function addPointsToStudent(pts) {
+  let p = getProfile() || { name: "Élève Anonyme", school: "Haïti", city: "Haïti", level: "9eme", pts: 0 };
+  p.pts += pts;
+  localStorage.setItem('bako_student_profile', JSON.stringify(p));
+  updateProfileBanner();
+}
+
+function openRankPage() {
+  hideAll();
+  document.getElementById('rankPage').style.display = 'block';
+  const p = getProfile();
+  renderLeaderboard(p ? p.level : '9eme');
+}
+
+function renderLeaderboard(lvl) {
+  const box = document.getElementById('leaderboardList');
+  let all = defaultCompetitors.filter(c => c.level === lvl);
+  const me = getProfile();
+  if (me && me.level === lvl) all.push({ name: me.name + " (Toi)", school: me.school, city: me.city, level: me.level, pts: me.pts, isMe: true });
+  all.sort((a, b) => b.pts - a.pts);
+  box.innerHTML = '';
+  all.forEach((st, i) => {
+    let m = i === 0 ? "🥇" : (i === 1 ? "🥈" : (i === 2 ? "🥉" : "#" + (i + 1)));
+    const row = document.createElement('div');
+    row.style.cssText = "padding:10px; border-bottom:1px solid #E2E8F0; display:flex; justify-content:space-between; align-items:center;" + (st.isMe ? "background:#EFF6FF; border-left:4px solid #0038A8;" : "");
+    row.innerHTML = `<div><strong>${m} ${st.name}</strong><br><span style="font-size:0.78rem; color:#64748B;">🏫 ${st.school} (${st.city})</span></div><span style="font-weight:bold; color:#0038A8;">${st.pts} pts</span>`;
+    box.appendChild(row);
+  });
+}
+
 function checkSub() {
   const s = JSON.parse(localStorage.getItem('bako_haiti_sub'));
   const b = document.getElementById('statusBadge'), e = document.getElementById('expiryInfo');
@@ -230,7 +344,6 @@ function checkSub() {
   e.textContent = "Rete " + Math.ceil(left / 86400000) + " jou"; return true;
 }
 checkSub();
-
 function checkVip() {
   const ph = document.getElementById('userPhone').value.replace(/\D/g, '');
   const cd = document.getElementById('vipCode').value.trim().toUpperCase();
@@ -246,13 +359,18 @@ function checkVip() {
 let list = [], idx = 0, score = 0, curClass = '', curSubId = '', curSubName = '';
 
 function hideAll() {
-  ['homePage','subjectPage','quizPage','resultPage','vipPage'].forEach(id => document.getElementById(id).style.display = 'none');
+  ['homePage','rankPage','profilePage','subjectPage','quizPage','resultPage','vipPage'].forEach(id => document.getElementById(id).style.display = 'none');
 }
 function goHome() { hideAll(); document.getElementById('homePage').style.display = 'block'; }
 function goVip() { hideAll(); document.getElementById('vipPage').style.display = 'block'; }
 function backToSubjects() { openSubjects(curClass); }
 
 function openSubjects(cls) {
+  if (!getProfile()) {
+    alert("👋 Avant de commencer, enregistre ton Nom et ton École !");
+    openProfileModal();
+    return;
+  }
   curClass = cls;
   const info = classSubjects[cls];
   document.getElementById('subClassTitle').textContent = info.title;
@@ -312,11 +430,12 @@ function showQ() {
       const fb = document.getElementById('fbBox'); fb.style.display = 'block';
       if (i === q.a) {
         b.classList.add('correct'); score++;
+        addPointsToStudent(10);
         document.getElementById('liveScore').textContent = "Note : " + score + " / " + list.length;
-        fb.style.background = "#D1FAE5"; fb.style.color = "#065F46"; fb.textContent = "✅ Bonne réponse ! (+1 point)";
+        fb.style.background = "#D1FAE5"; fb.style.color = "#065F46"; fb.textContent = "✅ Bonne réponse ! (+10 pts au classement)";
       } else {
         b.classList.add('wrong'); document.querySelectorAll('.option-btn')[q.a].classList.add('correct');
-        fb.style.background = "#FEE2E2"; fb.style.color = "#991B1B"; fb.textContent = "❌ Mauvaise réponse (0 point)";
+        fb.style.background = "#FEE2E2"; fb.style.color = "#991B1B"; fb.textContent = "❌ Mauvaise réponse (0 pt)";
       }
       document.getElementById('qExp').innerHTML = "<strong>💡 Explication :</strong> " + q.e;
       document.getElementById('qExp').style.display = 'block'; document.getElementById('btnNext').style.display = 'block';
@@ -332,7 +451,7 @@ function nextQ() {
     hideAll(); document.getElementById('resultPage').style.display = 'block';
     let pct = Math.round((score / list.length) * 100);
     document.getElementById('resPct').textContent = pct + " / 100";
-    document.getElementById('resTxt').textContent = curSubName + " : " + score + " / " + list.length;
+    document.getElementById('resTxt').textContent = curSubName + " : " + score + " / " + list.length + " (+" + (score * 10) + " pts)";
     const m = document.getElementById('resMent');
     m.style.background = pct >= 50 ? "#D1FAE5" : "#FEE2E2";
     m.style.color = pct >= 50 ? "#065F46" : "#991B1B";
