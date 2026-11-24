@@ -1,119 +1,142 @@
 const quizDatabase = {
     '9eme': {
-        title: '9yèm Ane Fondamantal (MENFP)',
+        title: '9yèm Ane (MENFP)',
         questions: [
-            {
-                q: "Matematik : Ki valè x nan ekwasyon sa a : 3x - 7 = 14 ?",
-                options: ["x = 5", "x = 7", "x = 21", "x = 3"],
-                answer: 1,
-                exp: "3x = 14 + 7 => 3x = 21 => x = 21 / 3 = 7."
-            },
-            {
-                q: "Syans Sosyal : Ki dat batay Vètyè (Vertières) la te fèt ?",
-                options: ["1ye Janvye 1804", "18 Novanm 1803", "14 Out 1791", "17 Oktòb 1806"],
-                answer: 1,
-                exp: "Batay Vètyè a te fèt 18 Novanm 1803 sou kòmandman Dessalines ak Capois-La-Mort."
-            },
-            {
-                q: "Kominikasyon Kreyòl : Ki wòl mo 'yo' nan fraz sa a : 'Timoun yo ap etidye' ?",
-                options: ["Pwonon pèsonèl", "Atik defini pliryèl", "Adjektif posesif", "Vèb"],
-                answer: 1,
-                exp: "'Yo' ki plase aprè yon non sèvi kòm atik defini pliryèl."
-            }
+            { q: "Matematik : Ki valè x nan 3x - 7 = 14 ?", options: ["x = 5", "x = 7", "x = 21"], answer: 1, exp: "3x = 21 => x = 7." },
+            { q: "Istwa : Ki dat batay Vètyè a te fèt ?", options: ["1ye Janvye 1804", "18 Novanm 1803", "14 Out 1791"], answer: 1, exp: "18 Novanm 1803." }
         ]
     },
     'smp': {
-        title: 'NS4 - Serye SMP (Matematik & Fizik)',
+        title: 'NS4 - SMP',
         questions: [
-            {
-                q: "Matematik : Ki limit fonksyon (x² - 4) / (x - 2) lè x ap tand vè 2 ?",
-                options: ["0", "2", "4", "Enfini"],
-                answer: 2,
-                exp: "x² - 4 = (x - 2)(x + 2). Lè nou senplifye pa (x - 2), li rete (x + 2). Pou x = 2, sa bay 4."
-            },
-            {
-                q: "Fizik : Yon kò ki gen mas 5 kg sibi yon akselerasyon 3 m/s². Ki fòs ki aplike sou li ?",
-                options: ["8 N", "15 N", "1.6 N", "2 N"],
-                answer: 1,
-                exp: "F = m × a => F = 5 kg × 3 m/s² = 15 Newton (N)."
-            }
+            { q: "Fizik : Fòs pou mas 5kg ak akselerasyon 3m/s² ?", options: ["8 N", "15 N", "2 N"], answer: 1, exp: "F = 5 × 3 = 15 N." }
         ]
     },
     'svt': {
-        title: 'NS4 - Serye SVT (Syans Lavi ak Latè)',
+        title: 'NS4 - SVT',
         questions: [
-            {
-                q: "Biyoloji : Ki òganit nan selil la ki responsab pwodiksyon enèji (ATP) ?",
-                options: ["Ribozòm", "Mitokondri", "Nwayo", "Aparèy Golgi"],
-                answer: 1,
-                exp: "Mitokondri a se santral enèjetik selil la kote respirasyon selilè a fèt."
-            },
-            {
-                q: "Jenetik : Konbyen kwomozòm yon selil somatik moun nòmal genyen ?",
-                options: ["23 kwomozòm", "44 kwomozòm", "46 kwomozòm", "48 kwomozòm"],
-                answer: 2,
-                exp: "Moun gen 23 pè kwomozòm, sa ki bay 46 kwomozòm an total."
-            }
+            { q: "Biyoloji : Òganit ki pwodui enèji (ATP) ?", options: ["Ribozòm", "Mitokondri", "Nwayo"], answer: 1, exp: "Mitokondri a." }
         ]
     },
     'ses': {
-        title: 'NS4 - Serye SES (Ekonomi & Syans Sosyal)',
+        title: 'NS4 - SES',
         questions: [
-            {
-                q: "Ekonomi : Kisa PIB (Produit Intérieur Brut) mezire ?",
-                options: ["Dèt ekstèn yon peyi", "Valè tout richès ki pwodui anndan yon peyi nan yon ane", "Kantite lajan bank santral la enprime"],
-                answer: 1,
-                exp: "PIB la mezire valè total tout byen ak sèvis final ki pwodui nan yon peyi pandan 1 ane."
-            },
-            {
-                q: "Istwa : Ki lane okipasyon amerikèn nan ann Ayiti te kòmanse ?",
-                options: ["1915", "1934", "1957", "1986"],
-                answer: 0,
-                exp: "Okipasyon amerikèn nan te kòmanse 28 Jiyè 1915 epi li te fini nan mwa Out 1934."
-            }
+            { q: "Istwa : Ki lane okipasyon amerikèn nan kòmanse ?", options: ["1915", "1934", "1957"], answer: 0, exp: "28 Jiyè 1915." }
         ]
     },
     'lla': {
-        title: 'NS4 - Serye LLA (Lèt, Lang & Atizay)',
+        title: 'NS4 - LLA',
         questions: [
-            {
-                q: "Literati Ayisyèn : Kiyès ki ekri 'Compère Général Soleil' ?",
-                options: ["Jacques Roumain", "Jacques Stephen Alexis", "René Depestre", "Marie Vieux-Chauvet"],
-                answer: 1,
-                exp: "Jacques Stephen Alexis te pibliye 'Compère Général Soleil' an 1955."
-            },
-            {
-                q: "Filozofi : Kiyès ki te di : 'Je pense, donc je suis' ?",
-                options: ["Platon", "René Descartes", "Jean-Jacques Rousseau", "Socrate"],
-                answer: 1,
-                exp: "René Descartes te ekri fraz sa a nan 'Discours de la méthode' (1637)."
-            }
+            { q: "Literati : Kiyès ki ekri 'Compère Général Soleil' ?", options: ["Jacques Roumain", "Jacques Stephen Alexis", "René Depestre"], answer: 1, exp: "Jacques Stephen Alexis (1955)." }
         ]
     },
     'univ': {
-        title: 'Konkou Inivèsite (UEH & Lòt)',
+        title: 'Konkou UEH',
         questions: [
-            {
-                q: "Kilti Jeneral : Ki premye nasyon nwa endepandan nan mond lan ?",
-                options: ["Etyopi", "Ayiti", "Liberya", "Gana"],
-                answer: 1,
-                exp: "Ayiti te pwoklame endepandans li 1ye Janvye 1804."
-            },
-            {
-                q: "Jewografi Ayiti : Konbyen depatman jewografik ki genyen nan peyi Ayiti ?",
-                options: ["9 depatman", "10 depatman", "11 depatman", "12 depatman"],
-                answer: 1,
-                exp: "Ayiti gen 10 depatman (dènye a se Nippes ki te kreye an 2003)."
-            }
+            { q: "Jewografi : Konbyen depatman ki genyen ann Ayiti ?", options: ["9", "10", "11"], answer: 1, exp: "10 depatman." }
         ]
     }
 };
-function sendWhatsAppProof() {
-    const phoneInput = document.getElementById('userPhone').value.replace(/\D/g, '');
-    if (phoneInput.length !== 8) {
-        alert("Tanpri ekri nimewo telefòn 8 chif ou anvan ou voye mesaj WhatsApp la !");
-        return;
-    }
-    const text = encodeURIComponent("Bonjou, mwen fèk peye 100 Gds sou Natcash (+509 4240-2215) pou abònman VIP BAKO HAITI. Men nimewo telefòn mwen pou kòd la : " + phoneInput);
-    window.open("https://wa.me" + text, "_blank");
+
+function generateUniqueCode(p) {
+    let n = parseInt(p, 10);
+    return isNaN(n) ? "" : "BK-" + (((n * 7) + 2026) % 9000 + 1000);
 }
+
+function checkSubscriptionStatus() {
+    const sub = JSON.parse(localStorage.getItem('bako_haiti_sub'));
+    const badge = document.getElementById('statusBadge');
+    const exp = document.getElementById('expiryInfo');
+    if (!sub) { badge.textContent = "Kont Gratis"; return false; }
+    const left = (30 * 86400000) - (Date.now() - sub.activatedAt);
+    if (left <= 0) {
+        localStorage.removeItem('bako_haiti_sub');
+        badge.textContent = "Abònman Ekspire";
+        return false;
+    }
+    badge.textContent = "Kont VIP Aktif ⭐ (" + sub.phone + ")";
+    badge.classList.add('vip-active');
+    exp.textContent = "Rete " + Math.ceil(left / 86400000) + " jou";
+    return true;
+}
+
+let isVIP = checkSubscriptionStatus();
+
+function checkVip() {
+    const ph = document.getElementById('userPhone').value.replace(/\D/g, '');
+    const cd = document.getElementById('vipCode').value.trim().toUpperCase();
+    const msg = document.getElementById('vipMsg');
+    if (ph.length !== 8) { msg.style.color = "#D21034"; msg.textContent = "❌ Antre 8 chif telefòn ou."; return; }
+    if (cd === generateUniqueCode(ph)) {
+        localStorage.setItem('bako_haiti_sub', JSON.stringify({ phone: ph, activatedAt: Date.now() }));
+        isVIP = checkSubscriptionStatus();
+        msg.style.color = "#10B981"; msg.textContent = "✅ VIP Aktive pou 30 jou !";
+        setTimeout(goHome, 1200);
+    } else {
+        msg.style.color = "#D21034"; msg.textContent = "❌ Kòd la pa bon.";
+    }
+}
+
+function openVipContent(sec) {
+    if (checkSubscriptionStatus()) { alert("⭐ Espas VIP Debloke pou : " + sec); }
+    else { alert("🔒 Abònman VIP obligatwa (100 Gds / 30 jou)."); goVip(); }
+}
+
+let curCat = '', curIdx = 0, score = 0;
+
+function goHome() {
+    document.getElementById('homePage').style.display = 'block';
+    document.getElementById('quizPage').style.display = 'none';
+    document.getElementById('vipPage').style.display = 'none';
+    document.getElementById('tabHome').classList.add('active');
+    document.getElementById('tabVip').classList.remove('active');
+}
+
+function goVip() {
+    document.getElementById('homePage').style.display = 'none';
+    document.getElementById('quizPage').style.display = 'none';
+    document.getElementById('vipPage').style.display = 'block';
+    document.getElementById('tabHome').classList.remove('active');
+    document.getElementById('tabVip').classList.add('active');
+}
+
+function startQuiz(cat) {
+    curCat = cat; curIdx = 0; score = 0;
+    document.getElementById('qTitle').textContent = quizDatabase[cat].title;
+    document.getElementById('homePage').style.display = 'none';
+    document.getElementById('vipPage').style.display = 'none';
+    document.getElementById('quizPage').style.display = 'block';
+    loadQuestion();
+}
+
+function loadQuestion() {
+    const qList = quizDatabase[curCat].questions;
+    const qObj = qList[curIdx];
+    document.getElementById('qCount').textContent = `Kesyon ${curIdx + 1} / ${qList.length}`;
+    document.getElementById('qText').textContent = qObj.q;
+    document.getElementById('qExp').style.display = 'none';
+    document.getElementById('btnNext').style.display = 'none';
+    const box = document.getElementById('qOptions');
+    box.innerHTML = '';
+    qObj.options.forEach((opt, i) => {
+        const b = document.createElement('button');
+        b.className = 'option-btn';
+        b.textContent = opt;
+        b.onclick = () => {
+            document.querySelectorAll('.option-btn').forEach(x => x.disabled = true);
+            if (i === qObj.answer) { b.classList.add('correct'); score++; }
+            else { b.classList.add('wrong'); document.querySelectorAll('.option-btn')[qObj.answer].classList.add('correct'); }
+            document.getElementById('qExp').innerHTML = `<strong>💡 Eksplikasyon :</strong> ${qObj.exp}`;
+            document.getElementById('qExp').style.display = 'block';
+            document.getElementById('btnNext').style.display = 'block';
+        };
+        box.appendChild(b);
+    });
+}
+
+function nextQ() {
+    curIdx++;
+    if (curIdx < quizDatabase[curCat].questions.length) { loadQuestion(); }
+    else { alert(`🎉 Nòt ou : ${score} / ${quizDatabase[curCat].questions.length}`); goHome(); }
+}
+    
