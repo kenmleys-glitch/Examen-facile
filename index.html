@@ -240,7 +240,7 @@ const subjectQuestions = {
 };
 function genMathOnly(subId) {
   let res = [];
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 20; i++) {
     let a = Math.floor(Math.random() * 6) + 2, x = Math.floor(Math.random() * 9) + 1, b = Math.floor(Math.random() * 10) + 1;
     let id = subId + "_" + Date.now() + "_" + i + "_" + Math.random();
     if (subId === '9_math') {
