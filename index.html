@@ -396,24 +396,38 @@ function openSubjects(cls) {
 function startSubjectQuiz(subId, subName) {
   curSubId = subId;
   curSubName = subName;
-    if (subId === '9_math_past' && typeof pastPapers9eme !== 'undefined') {
+      if (subId === '9_math_past') {
     hideAll();
-    const box = document.getElementById('subjectButtonsList');
-    document.getElementById('subClassTitle').textContent = "📜 Feuilles d'Examens d'État (MENFP)";
+    const box = document.getElementById('subjectBox');
+    document.getElementById('subClassTitle').textContent = "📚 30 Anciens Examens MENFP - Mathématiques (9ème)";
     box.innerHTML = '';
-    pastPapers9eme.forEach((paper, idxP) => {
+    const liste30 = (typeof examensPasses !== 'undefined') ? examensPasses : (typeof pastPapers9eme !== 'undefined' ? pastPapers9eme : []);
+    liste30.forEach((paper, idxP) => {
       const div = document.createElement('div');
-      div.style.cssText = "background:#F8FAFC; border:1px solid #CBD5E1; border-radius:10px; padding:14px; margin-bottom:15px; text-align:left;";
+      div.style.cssText = "background:#F8FAFC; border:1px solid #CBD5E1; border-radius:10px; padding:14px; margin-bottom:14px;";
+      const titre = paper.titre || paper.title || ("Examen " + (idxP + 1));
+      const annee = paper.annee || paper.year || "";
+      let qHtml = '';
+      let cHtml = '';
+      if (paper.questions) {
+        paper.questions.forEach((item, qi) => {
+          qHtml += `<p style="margin:6px 0;"><strong>${qi + 1}.</strong> ${item.q}</p>`;
+          const bonneRep = item.options ? item.options[item.answer] : '';
+          cHtml += `<p style="margin:6px 0;"><strong>${qi + 1}. Repons : ${bonneRep}</strong><br><em>${item.explication || ''}</em></p>`;
+        });
+      }
       div.innerHTML = `
-        <h3 style="color:#0038A8; font-size:1rem; margin-bottom:4px;">${paper.title}</h3>
-        <p style="font-size:0.78rem; color:#D21034; font-weight:bold; margin-bottom:10px;">${paper.duration}</p>
-        <div style="font-size:0.88rem; line-height:1.55; color:#1E293B; background:white; padding:12px; border-radius:8px; border:1px solid #E2E8F0;">${paper.body}</div>
-        <button class="btn btn-sm" style="background:#10B981; margin-top:10px; width:100%;" onclick="document.getElementById('corr_${idxP}').style.display='block'">👁️ Afficher le Corrigé Officiel</button>
-        <div id="corr_${idxP}" style="display:none; margin-top:10px; padding:12px; background:#ECFDF5; border-left:4px solid #10B981; border-radius:8px; font-size:0.86rem; line-height:1.5;">${paper.correction}</div>
+        <h3 style="color:#0038A8; font-size:1rem; margin-bottom:4px;">${titre}</h3>
+        <p style="font-size:0.78rem; color:#D21034; font-weight:bold; margin-bottom:8px;">MENFP Officiel ${annee}</p>
+        <div style="font-size:0.88rem; line-height:1.5; margin-bottom:10px;">${qHtml}</div>
+        <button class="btn btn-sm" style="background:#0038A8; color:white;" onclick="const el=document.getElementById('corr_${idxP}'); el.style.display = el.style.display === 'none' ? 'block' : 'none';">✅ Voir / Cacher la correction</button>
+        <div id="corr_${idxP}" style="display:none; margin-top:10px; padding:10px; background:#EFF6FF; border-left:4px solid #0038A8; font-size:0.85rem;">${cHtml}</div>
       `;
       box.appendChild(div);
     });
     document.getElementById('subjectPage').style.display = 'block';
+    return;
+      }
     return;
     }
   let seen = JSON.parse(localStorage.getItem('bako_seen') || '[]');
@@ -479,6 +493,7 @@ function nextQ() {
   }
 }
 </script>
+  <script src="examens_passes.js"></script>
   <script src="math_engine.js"></script>
 </body>
 </html>
