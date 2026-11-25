@@ -389,14 +389,32 @@ function openSubjects(cls) {
     };
     box.appendChild(btn);
   });
-
   hideAll();
   document.getElementById('subjectPage').style.display = 'block';
 }
-
 function startSubjectQuiz(subId, subName) {
   curSubId = subId;
   curSubName = subName;
+    if (subId === '9_math_past' && typeof pastPapers9eme !== 'undefined') {
+    hideAll();
+    const box = document.getElementById('subjectButtonsList');
+    document.getElementById('subClassTitle').textContent = "📜 Feuilles d'Examens d'État (MENFP)";
+    box.innerHTML = '';
+    pastPapers9eme.forEach((paper, idxP) => {
+      const div = document.createElement('div');
+      div.style.cssText = "background:#F8FAFC; border:1px solid #CBD5E1; border-radius:10px; padding:14px; margin-bottom:15px; text-align:left;";
+      div.innerHTML = `
+        <h3 style="color:#0038A8; font-size:1rem; margin-bottom:4px;">${paper.title}</h3>
+        <p style="font-size:0.78rem; color:#D21034; font-weight:bold; margin-bottom:10px;">${paper.duration}</p>
+        <div style="font-size:0.88rem; line-height:1.55; color:#1E293B; background:white; padding:12px; border-radius:8px; border:1px solid #E2E8F0;">${paper.body}</div>
+        <button class="btn btn-sm" style="background:#10B981; margin-top:10px; width:100%;" onclick="document.getElementById('corr_${idxP}').style.display='block'">👁️ Afficher le Corrigé Officiel</button>
+        <div id="corr_${idxP}" style="display:none; margin-top:10px; padding:12px; background:#ECFDF5; border-left:4px solid #10B981; border-radius:8px; font-size:0.86rem; line-height:1.5;">${paper.correction}</div>
+      `;
+      box.appendChild(div);
+    });
+    document.getElementById('subjectPage').style.display = 'block';
+    return;
+    }
   let seen = JSON.parse(localStorage.getItem('bako_seen') || '[]');
     let baseQ = subjectQuestions[subId] || [];
   let ext9 = (typeof extra9eme !== 'undefined' && extra9eme[subId]) ? extra9eme[subId] : [];
