@@ -201,7 +201,6 @@ function openRevSubject(lvl, sName) {
   `;
   renderSubFlashcard();
 }
-
 function renderSubFlashcard() {
   const cards = revisionCatalog[curRevLevel].subjects[curRevSub].flashcards;
   const item = cards[fcIdx];
@@ -212,12 +211,11 @@ function renderSubFlashcard() {
       ${fcFlip ? "✅ " + item.a : "❓ (" + (fcIdx + 1) + "/" + cards.length + ") " + item.q}
     </div>
     <div style="display:flex; gap:8px; margin-top:8px;">
-      <button class="btn btn-sm btn-outline" onclick="fcIdx = (fcIdx - 1 + ${cards.length}) % ${cards.length}; fcFlip = false; renderSubFlashcard();">⬅️ Anvan</button>
-      <button class="btn btn-sm btn-blue" onclick="fcIdx = (fcIdx + 1) % ${cards.length}; fcFlip = false; renderSubFlashcard();">Suivan ➡️</button>
+      <button class="btn btn-sm" style="background:#64748B; color:white; flex:1;" onclick="fcIdx = (fcIdx - 1 + ${cards.length}) % ${cards.length}; fcFlip = false; renderSubFlashcard();">⬅️ Anvan</button>
+      <button class="btn btn-sm" style="background:#0038A8; color:white; flex:1;" onclick="fcIdx = (fcIdx + 1) % ${cards.length}; fcFlip = false; renderSubFlashcard();">Suivan ➡️</button>
     </div>
   `;
 }
-
 function openRevGlos() {
   hideAll();
   document.getElementById('revisionHubPage').style.display = 'block';
