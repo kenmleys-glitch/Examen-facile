@@ -33,4 +33,21 @@ const extra9eme = {
     { id: "lg9_12", q: "[MENFP - Espagnol] ¿Qué día viene después del lunes ?", o: ["Domingo", "Martes", "Viernes"], a: 1, e: "Après lundi (lunes) vient mardi (martes)." },
     { id: "lg9_13", q: "[MENFP - Espagnol] Complete: « Yo _____ estudiante de noveno grado. »", o: ["eres", "soy", "es"], a: 1, e: "Avec 'Yo' (je), le verbe 'ser' se conjugue 'soy'." }
   ],
-  
+   "9_math": [
+    { id: "m9_101", q: "[MENFP 2024 - Problème] Un père a 42 ans et son fils a 12 ans. Dans combien d'années l'âge du père sera-t-il le triple de celui du fils ?", o: ["Dans 3 ans", "Dans 5 ans", "Dans 6 ans"], a: 0, e: "42 + x = 3(12 + x) ⇒ 42 + x = 36 + 3x ⇒ 2x = 6 ⇒ x = 3 ans." },
+    { id: "m9_102", q: "[MENFP 2024 - Algèbre] Développez et réduisez : A = (2x - 3)² - (x + 1)(2x - 3)", o: ["2x² - 11x + 12", "2x² - 13x + 12", "4x² - 12x + 9"], a: 0, e: "A = (4x² - 12x + 9) - (2x² - x - 3) = 2x² - 11x + 12." },
+    { id: "m9_103", q: "[MENFP 2023 - Géométrie] Un triangle ABC est inscrit dans un cercle de diamètre [BC] = 10 cm. Si AB = 6 cm, quelle est la longueur de AC ?", o: ["8 cm", "4 cm", "16 cm"], a: 0, e: "ABC est rectangle en A. D'après Pythagore : AC² = 10² - 6² = 64 ⇒ AC = 8 cm." },
+    { id: "m9_104", q: "[MENFP 2023 - Trigonométrie] Dans un triangle rectangle en A, sin(B) = 0,6. Quelle est la valeur exacte de cos(B) ?", o: ["0,8", "0,4", "0,5"], a: 0, e: "cos²(B) + sin²(B) = 1 ⇒ cos²(B) = 1 - 0,36 = 0,64 ⇒ cos(B) = 0,8." },
+    { id: "m9_105", q: "[MENFP 2023 - Fonctions] Soit la fonction affine f(x) = -3x + 7. Quel est l'antécédent de -5 par f ?", o: ["4", "22", "-4"], a: 0, e: "-3x + 7 = -5 ⇒ -3x = -12 ⇒ x = 4." },
+    { id: "m9_106", q: "[MENFP 2022 - Arithmétique] Calculez le PGCD des nombres 108 et 144 :", o: ["36", "18", "12"], a: 0, e: "144 = 108 × 1 + 36 ; 108 = 36 × 3 + 0. Donc PGCD(108 ; 144) = 36." },
+    { id: "m9_107", q: "[MENFP 2022 - Racines Carrées] Écrivez sous la forme a√3 l'expression : B = √75 - 2√12 + √27", o: ["4√3", "2√3", "6√3"], a: 0, e: "B = 5√3 - 2(2√3) + 3√3 = (5 - 4 + 3)√3 = 4√3." },
+    { id: "m9_108", q: "[MENFP 2022 - Statistiques] Voici les notes d'un élève : 12 ; 15 ; 9 ; 14 ; 10. Quelle est sa moyenne générale ?", o: ["12", "13", "11,5"], a: 0, e: "Somme = 12 + 15 + 9 + 14 + 10 = 60. Moyenne = 60 / 5 = 12." },
+    { id: "m9_109", q: "[MENFP 2021 - Systèmes] Résolvez le système : { 2x + y = 11 ; x - y = 1 }", o: ["(4 ; 3)", "(3 ; 4)", "(5 ; 1)"], a: 0, e: "En additionnant : 3x = 12 ⇒ x = 4, et 4 - y = 1 ⇒ y = 3." },
+    { id: "m9_110", q: "[MENFP 2021 - Géométrie] Calculez le volume d'un cylindre de rayon R = 3 cm et de hauteur h = 10 cm (avec π ≈ 3,14) :", o: ["282,6 cm³", "94,2 cm³", "188,4 cm³"], a: 0, e: "V = π × R² × h = 3,14 × 9 × 10 = 282,6 cm³." },
+    { id: "m9_111", q: "[MENFP 2021 - Inéquations] Quel est l'ensemble des solutions de l'inéquation : -2x + 6 ≤ 0 ?", o: ["[3 ; +∞[", "]-∞ ; 3]", "[-3 ; +∞["], a: 0, e: "-2x ≤ -6 ⇒ en divisant par -2 (on change le sens) : x ≥ 3, soit [3 ; +∞[." },
+    { id: "m9_112", q: "[MENFP 2020 - Problème] Un champ rectangulaire a un périmètre de 140 m. Sa longueur mesure 10 m de plus que sa largeur. Quelle est sa largeur ?", o: ["30 m", "40 m", "35 m"], a: 0, e: "Demi-périmètre L + l = 70. Avec L = l + 10 ⇒ 2l + 10 = 70 ⇒ 2l = 60 ⇒ l = 30 m." },
+    { id: "m9_113", q: "[MENFP 2020 - Vecteurs] Dans un repère, on donne A(2 ; 5) et B(6 ; 1). Quelles sont les coordonnées du milieu I de [AB] ?", o: ["(4 ; 3)", "(4 ; -4)", "(8 ; 6)"], a: 0, e: "xI = (2 + 6)/2 = 4 et yI = (5 + 1)/2 = 3. Donc I(4 ; 3)." },
+    { id: "m9_114", q: "[MENFP 2019 - Puissances] Simplifiez l'écriture scientifique de : C = (4 × 10⁵) × (3 × 10⁻²)", o: ["1,2 × 10⁴", "12 × 10⁷", "1,2 × 10³"], a: 0, e: "C = 12 × 10³ = 1,2 × 10⁴." },
+    { id: "m9_115", q: "[MENFP 2019 - Factorisation] Factorisez complètement : E = (3x + 2)² - 16", o: ["(3x - 2)(3x + 6)", "(3x - 14)(3x + 18)", "(3x - 2)²"], a: 0, e: "E = (3x + 2)² - 4² = (3x + 2 - 4)(3x + 2 + 4) = (3x - 2)(3x + 6)." }
+  ]
+};
