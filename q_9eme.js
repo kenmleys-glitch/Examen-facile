@@ -1,5 +1,5 @@
 // =========================================================
-// BANQUE OFFICIELLE 9ÈME ANNÉE FONDAMENTALE (MENFP - PAQUET 1)
+// BANQUE OFFICIELLE 9ÈME ANNÉE FONDAMENTALE (MENFP - COMPLÈTE)
 // =========================================================
 
 const extra9eme = {
@@ -22,7 +22,7 @@ const extra9eme = {
     { id: "sci9_15", q: "[MENFP] Quel type de cellules sanguines défend l'organisme contre les microbes ?", o: ["Les globules rouges", "Les globules blancs (leucocytes)", "Les plaquettes"], a: 1, e: "Les globules blancs assurent l'immunité et la défense du corps." }
   ],
   "9_fr": [
-    { id: "fr9_10", q: "[MENFP] Quelle est la nature grammaticale du mot souligné : « Les élèves travaillent *sérieusement*. » ?", o: ["Adjectif qualificatif", "Adverbe", "Préposition"], a: 1, e: "« Sérieusement » est un adverbe de manière invariable." },
+    { id: "fr9_10", q: "[MENFP] Quelle est la nature grammaticale du mot souligné : « Les élèves travaillent sérieusement. » ?", o: ["Adjectif qualificatif", "Adverbe", "Préposition"], a: 1, e: "« Sérieusement » est un adverbe de manière invariable." },
     { id: "fr9_11", q: "[MENFP] Conjuguez au passé simple : « Hier, ils _____ une longue lettre. »", o: ["écrivaient", "écrivirent", "ont écrit"], a: 1, e: "Au passé simple de l'indicatif, le verbe écrire donne : ils écrivirent." },
     { id: "fr9_12", q: "[MENFP] Qui est l'auteur du célèbre roman haïtien « Gouverneurs de la rosée » ?", o: ["Jacques Stephen Alexis", "Jacques Roumain", "Frankétienne"], a: 1, e: "Jacques Roumain a écrit « Gouverneurs de la rosée » (publié en 1944)." },
     { id: "fr9_13", q: "[MENFP] Identifiez le COD dans : « Le professeur corrige les copies. »", o: ["Le professeur", "les copies", "corrige"], a: 1, e: "Le professeur corrige quoi ? « les copies » (Complément d'Objet Direct)." }
@@ -32,5 +32,5 @@ const extra9eme = {
     { id: "lg9_11", q: "[MENFP - Anglais] What is the opposite of 'expensive' ?", o: ["Big", "Cheap", "Heavy"], a: 1, e: "'Expensive' signifie cher ; son contraire est 'cheap' (bon marché)." },
     { id: "lg9_12", q: "[MENFP - Espagnol] ¿Qué día viene después del lunes ?", o: ["Domingo", "Martes", "Viernes"], a: 1, e: "Après lundi (lunes) vient mardi (martes)." },
     { id: "lg9_13", q: "[MENFP - Espagnol] Complete: « Yo _____ estudiante de noveno grado. »", o: ["eres", "soy", "es"], a: 1, e: "Avec 'Yo' (je), le verbe 'ser' se conjugue 'soy'." }
-  ]
-};
+  ],
+  
