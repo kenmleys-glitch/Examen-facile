@@ -428,8 +428,6 @@ function startSubjectQuiz(subId, subName) {
     document.getElementById('subjectPage').style.display = 'block';
     return;
       }
-    return;
-    }
   let seen = JSON.parse(localStorage.getItem('bako_seen') || '[]');
     let baseQ = subjectQuestions[subId] || [];
   let ext9 = (typeof extra9eme !== 'undefined' && extra9eme[subId]) ? extra9eme[subId] : [];
