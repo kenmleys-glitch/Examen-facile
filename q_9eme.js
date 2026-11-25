@@ -33,7 +33,7 @@ const extra9eme = {
     { id: "lg9_12", q: "[MENFP - Espagnol] ¿Qué día viene después del lunes ?", o: ["Domingo", "Martes", "Viernes"], a: 1, e: "Après lundi (lunes) vient mardi (martes)." },
     { id: "lg9_13", q: "[MENFP - Espagnol] Complete: « Yo _____ estudiante de noveno grado. »", o: ["eres", "soy", "es"], a: 1, e: "Avec 'Yo' (je), le verbe 'ser' se conjugue 'soy'." }
   ],
-   "9_math": [
+   "9_math_past":
     { id: "m9_101", q: "[MENFP 2024 - Problème] Un père a 42 ans et son fils a 12 ans. Dans combien d'années l'âge du père sera-t-il le triple de celui du fils ?", o: ["Dans 3 ans", "Dans 5 ans", "Dans 6 ans"], a: 0, e: "42 + x = 3(12 + x) ⇒ 42 + x = 36 + 3x ⇒ 2x = 6 ⇒ x = 3 ans." },
     { id: "m9_102", q: "[MENFP 2024 - Algèbre] Développez et réduisez : A = (2x - 3)² - (x + 1)(2x - 3)", o: ["2x² - 11x + 12", "2x² - 13x + 12", "4x² - 12x + 9"], a: 0, e: "A = (4x² - 12x + 9) - (2x² - x - 3) = 2x² - 11x + 12." },
     { id: "m9_103", q: "[MENFP 2023 - Géométrie] Un triangle ABC est inscrit dans un cercle de diamètre [BC] = 10 cm. Si AB = 6 cm, quelle est la longueur de AC ?", o: ["8 cm", "4 cm", "16 cm"], a: 0, e: "ABC est rectangle en A. D'après Pythagore : AC² = 10² - 6² = 64 ⇒ AC = 8 cm." },
