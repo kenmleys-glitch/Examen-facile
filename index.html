@@ -3,15 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0038A8">
 <title>BAKO HAITI - MENFP</title>
+<link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="header">
-  <h1>🇭🇹 BAKO HAITI</h1>
+  <h1 id="appLogo" style="cursor:pointer; user-select:none;">🇭🇹 BAKO HAITI</h1>
   <p>Évaluations MENFP & Classement National</p>
-  <div id="statusBadge" class="badge">Kont Gratis</div>
+  <div style="display:flex; justify-content:center; gap:8px; align-items:center; flex-wrap:wrap; margin-top:6px;">
+    <div id="statusBadge" class="badge">Kont Gratis</div>
+    <div id="streakBadge" class="badge" style="background:#FF6B00;">🔥 1 Jou</div>
+  </div>
   <div id="expiryInfo" class="expiry-text"></div>
 </header>
 
@@ -19,7 +24,8 @@
   <section id="homePage">
     <div id="profileBanner" class="card border-orange" style="padding:12px;">
       <p style="margin-bottom:6px;"><strong>👤 Identité :</strong> <span id="displayStudentName">Non enregistré</span></p>
-      <p style="margin-bottom:8px; font-size:0.82rem;"><strong>🏫 École :</strong> <span id="displayStudentSchool">---</span></p>
+      <p style="margin-bottom:6px; font-size:0.82rem;"><strong>🏫 École :</strong> <span id="displayStudentSchool">---</span></p>
+      <p style="margin-bottom:8px; font-size:0.82rem; color:#0038A8;"><strong>📊 Performance :</strong> <span id="displayStats">0 question(s) réussie(s)</span></p>
       <button class="btn btn-sm" style="background:#0038A8; width:100%; padding:8px;" onclick="openProfileModal()">✏️ Modifier mon Nom & mon École</button>
     </div>
 
@@ -62,7 +68,8 @@
       <div id="leaderboardList"></div>
     </div>
   </section>
-    <section id="profilePage" style="display:none;">
+
+  <section id="profilePage" style="display:none;">
     <div class="card border-blue">
       <h2>👤 Mon Identité Officielle</h2>
       <p>Ces informations seront publiques dans le classement national :</p>
@@ -86,6 +93,7 @@
       <h2 id="subClassTitle">Matières Officielles</h2>
       <p>Sélectionnez une matière pour gagner des points au classement :</p>
       <div id="subjectButtonsList"></div>
+      <div id="subjectBox"></div>
     </div>
     <button class="btn btn-outline" onclick="goHome()">⬅️ Retour aux Classes</button>
   </section>
@@ -96,7 +104,10 @@
       <span id="liveScore" style="color:#10B981;">Note : 0 / 5</span>
     </div>
     <div class="card border-blue">
-      <p id="qCount" class="q-count">Question 1 / 5</p>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <p id="qCount" class="q-count">Question 1 / 5</p>
+        <button class="btn btn-sm" style="background:#EFF6FF; color:#0038A8; padding:4px 8px; font-size:0.78rem;" onclick="speakQuestion()">🔊 Koute</button>
+      </div>
       <h3 id="qText" class="q-text"></h3>
       <div id="qOptions"></div>
       <div id="fbBox" style="display:none; padding:10px; border-radius:8px; font-weight:bold; margin-top:10px; text-align:center;"></div>
@@ -112,6 +123,7 @@
       <div id="resPct" style="font-size:2.4rem; font-weight:bold; color:#10B981; margin:15px 0;">0 / 100</div>
       <p id="resTxt" style="font-weight:bold;"></p>
       <div id="resMent" style="padding:10px; border-radius:8px; margin:15px 0; font-weight:bold;"></div>
+      <button class="btn" style="background:#25D366; color:white; margin-bottom:8px;" onclick="shareChallenge()">📲 Defye yon Zanmi sou WhatsApp</button>
       <button class="btn btn-orange" onclick="openRankPage()">🏆 Voir ma Position Publique</button>
       <button class="btn btn-blue" id="btnNewSet">🔄 Nouvelle Série</button>
       <button class="btn btn-outline" onclick="backToSubjects()">📚 Autre Matière</button>
@@ -122,14 +134,35 @@
     <div class="card border-orange">
       <h2 style="color:#FF6B00;">🟠 Abonnement VIP - 100 Gds / 30 Jours</h2>
       <div class="natcash-box">
-        <p><strong>1. Envoyez 100 Gds sur Natcash :</strong></p>
-        <p style="font-size:1.1rem; color:#0038A8; font-weight:bold; margin:5px 0;">📱 +509 42 40 22 15</p>
-        <a href="https://wa.me" target="_blank" class="btn" style="background:#25D366; color:white; text-decoration:none; margin-top:8px;">💬 Envoyer la preuve sur WhatsApp</a>
+        <p><strong>Etap 1 : Voye 100 Gds sou Natcash :</strong></p>
+        <p style="font-size:1.15rem; color:#0038A8; font-weight:bold; margin:5px 0;">📱 +509 42 40 22 15</p>
+        <p style="font-size:0.8rem; color:#64748B; margin-bottom:8px;">Apre peman an, ranpli enfòmasyon resi a anba a pou w voye foto prèv la sou WhatsApp :</p>
+        <input type="tel" id="payPhone" class="input-code" placeholder="Nimewo telefòn ou (ex: 37124567)" maxlength="8">
+        <input type="text" id="payRef" class="input-code" placeholder="ID Tranzaksyon Natcash (ex: 84920194)">
+        <button class="btn" style="background:#25D366; color:white; margin-top:4px; width:100%;" onclick="sendPaymentProof()">💬 Voye prèv + foto sou WhatsApp</button>
       </div>
-      <input type="tel" id="userPhone" class="input-code" placeholder="Votre numéro (ex: 37124567)" maxlength="8">
-      <input type="text" id="vipCode" class="input-code" placeholder="Votre code (ex: BK-7531)">
-      <button class="btn btn-orange" onclick="checkVip()">Activer VIP (30 Jours)</button>
+      <hr style="margin:15px 0; border:0; border-top:1px solid #E2E8F0;">
+      <p style="font-weight:bold; margin-bottom:6px;">Etap 2 : Antre kòd aktivasyon ou resevwa a :</p>
+      <p style="font-size:0.78rem; color:#D21034; margin-bottom:8px;">⚠️ Kòd la lye ak nimewo w epi li valab pandan 30 minit sèlman.</p>
+      <input type="tel" id="userPhone" class="input-code" placeholder="Nimewo telefòn ou (ex: 37124567)" maxlength="8">
+      <input type="text" id="vipCode" class="input-code" placeholder="Kòd VIP (ex: BK-8492A)">
+      <button class="btn btn-orange" onclick="checkVip()">✅ Aktive VIP (30 Jours)</button>
       <p id="vipMsg" class="vip-msg"></p>
+    </div>
+  </section>
+
+  <section id="adminPage" style="display:none;">
+    <div class="card border-red">
+      <h2 style="color:#D21034;">🔐 Panèl Admin - Jenere Kòd VIP</h2>
+      <p style="font-size:0.82rem; margin-bottom:10px;">Verifye <strong>ID Tranzaksyon Natcash</strong> la sou foto WhatsApp la anvan w kreye kòd la.</p>
+      <input type="tel" id="adminClientPhone" class="input-code" placeholder="Nimewo telefòn elèv la (8 chif)" maxlength="8">
+      <button class="btn btn-blue" onclick="generateSecureVipCode()">⚡ Jenere Kòd 30 Jou (Valab 30 min)</button>
+      <div id="adminGeneratedBox" style="display:none; margin-top:12px; padding:12px; background:#EFF6FF; border:2px dashed #0038A8; border-radius:8px; text-align:center;">
+        <p style="font-size:0.85rem;">Kòd pou elèv <strong id="admOutPhone"></strong> :</p>
+        <p id="admOutCode" style="font-size:1.4rem; font-weight:bold; color:#D21034; margin:6px 0;"></p>
+          <button class="btn btn-sm" style="background:#25D366; color:white;" onclick="copyAdminReply()">📋 Kopye mesaj repons WhatsApp la</button>
+      </div>
+      <button class="btn btn-outline" style="margin-top:12px;" onclick="goHome()">⬅️ Fèmen Admin</button>
     </div>
   </section>
 </main>
@@ -138,12 +171,12 @@
   <button onclick="goHome()">🏠 Accueil</button>
   <button onclick="openRankPage()">🏆 Classement</button>
   <button onclick="goVip()">🟠 Abonnement (100 Gds)</button>
-    </nav>
-  <script src="q_9eme.js?v=7"></script>
+</nav>
+<script src="q_9eme.js?v=7"></script>
 <script src="epreuves_50.js?v=1"></script>
 <script src="q_ns4_ueh.js"></script>
 <script src="math_engine.js"></script>
-    <script>
+<script>
 const classSubjects = {
   '9eme': {
     title: "📘 9ème Année Fondamentale (MENFP)",
@@ -160,7 +193,8 @@ const classSubjects = {
     title: "🎓 NS4 - Série SMP",
     subjects: [
       { id: "smp_math", name: "📐 Mathématiques (Analyse/Algèbre)", vip: false },
-      { id: "smp_phy", name: "⚡ Physique & Chimie", vip: true },
+      { id: "smp_phy", name: "⚡ Physique", vip: true },
+      { id: "svt_chim", name: "🧪 Chimie", vip: true },
       { id: "smp_philo", name: "🧠 Philosophie", vip: true }
     ]
   },
@@ -168,32 +202,32 @@ const classSubjects = {
     title: "🎓 NS4 - Série SVT",
     subjects: [
       { id: "svt_bio", name: "🧬 Biologie & Géologie", vip: false },
-      { id: "svt_chim", name: "🧪 Chimie & Physique", vip: true },
-      { id: "smp_math", name: "📐 Mathématiques", vip: true }
+      { id: "svt_chim", name: "🧪 Chimie", vip: true },
+      { id: "smp_phy", name: "⚡ Physique", vip: true },
+      { id: "smp_philo", name: "🧠 Philosophie", vip: true }
     ]
   },
   'ses': {
     title: "🎓 NS4 - Série SES",
     subjects: [
       { id: "ses_eco", name: "📊 Économie", vip: false },
-      { id: "ses_hist", name: "🏛️ Histoire & Géographie", vip: true },
-      { id: "smp_math", name: "📐 Mathématiques Financières", vip: true }
+      { id: "ses_hist", name: "🌍 Histoire & Géographie", vip: true },
+      { id: "smp_philo", name: "🧠 Philosophie", vip: true }
     ]
   },
   'lla': {
     title: "🎓 NS4 - Série LLA",
     subjects: [
-      { id: "lla_lit", name: "📚 Littérature Haïtienne & Française", vip: false },
+      { id: "lla_lit", name: "📚 Littérature & Français", vip: false },
       { id: "smp_philo", name: "🧠 Philosophie", vip: true },
-      { id: "9_lang", name: "🗣️ Langues Vivantes", vip: true }
+      { id: "ses_hist", name: "🌍 Histoire & Géographie", vip: true }
     ]
   },
   'univ': {
     title: "🏛️ Concours Université (UEH)",
     subjects: [
-      { id: "ueh_cult", name: "🇭🇹 Culture Générale (Haïti & Monde)", vip: false },
-      { id: "ueh_log", name: "🧩 Logique & Raisonnement", vip: true },
-      { id: "smp_math", name: "📐 Mathématiques (FDS / Économie)", vip: true }
+      { id: "ueh_cult", name: "🇭🇹 Culture Générale", vip: false },
+      { id: "ueh_log", name: "🧩 Logique & Raisonnement", vip: true }
     ]
   }
 };
@@ -240,6 +274,64 @@ const subjectQuestions = {
     { id: "ul_1", q: "[Concours UEH] Complétez la suite : 2 - 6 - 18 - 54 - ?", o: ["108", "162", "216"], a: 1, e: "Chaque terme est multiplié par 3 : 54 × 3 = 162." }
   ]
 };
+  let curClass = '9eme', curSubId = '', curSubName = '', list = [], idx = 0, score = 0, isDemoMode = false;
+
+function hideAll() {
+  ['homePage', 'rankPage', 'profilePage', 'subjectPage', 'quizPage', 'resultPage', 'vipPage', 'adminPage'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+}
+
+function goHome() { hideAll(); document.getElementById('homePage').style.display = 'block'; }
+function goVip() { hideAll(); document.getElementById('vipPage').style.display = 'block'; }
+function backToSubjects() { openSubjects(curClass); }
+
+function openSubjects(cls) {
+  curClass = cls;
+  const data = classSubjects[cls];
+  document.getElementById('subClassTitle').textContent = data.title;
+  document.getElementById('subjectBox').innerHTML = '';
+  const listDiv = document.getElementById('subjectButtonsList');
+  listDiv.innerHTML = '';
+  const isVip = checkSub();
+
+  data.subjects.forEach(sub => {
+    const wrap = document.createElement('div');
+    wrap.style.marginBottom = '10px';
+    const btn = document.createElement('button');
+    btn.className = 'btn ' + (sub.vip && !isVip ? 'btn-orange' : 'btn-blue');
+    btn.style.marginBottom = '4px';
+    btn.textContent = sub.name + (sub.vip && !isVip ? ' 🔒 (VIP)' : '');
+    btn.onclick = () => {
+      if (sub.vip && !isVip) {
+        alert("🔒 Matière réservée aux membres VIP (100 Gds/mois). Vous pouvez tester 5 questions gratuites ci-dessous !");
+        goVip();
+      } else {
+        isDemoMode = false;
+        startSubjectQuiz(sub.id, sub.name);
+      }
+    };
+    wrap.appendChild(btn);
+
+    if (sub.vip && !isVip && sub.id !== '9_math_past') {
+      const demoBtn = document.createElement('button');
+      demoBtn.className = 'btn btn-sm';
+      demoBtn.style.cssText = 'background:#EFF6FF; color:#0038A8; width:100%; font-size:0.8rem; border:1px dashed #0038A8;';
+      demoBtn.textContent = '🎁 Essayer 5 questions gratuites (Démo)';
+      demoBtn.onclick = () => {
+        isDemoMode = true;
+        startSubjectQuiz(sub.id, sub.name + " (Démo)");
+      };
+      wrap.appendChild(demoBtn);
+    }
+    listDiv.appendChild(wrap);
+  });
+
+  hideAll();
+  document.getElementById('subjectPage').style.display = 'block';
+}
+
 function genMathOnly(subId) {
   let res = [];
   for (let i = 0; i < 20; i++) {
@@ -269,15 +361,29 @@ const defaultCompetitors = [
 
 function getProfile() { return JSON.parse(localStorage.getItem('bako_student_profile') || 'null'); }
 
+function updateStreak() {
+  const today = new Date().toDateString();
+  let st = JSON.parse(localStorage.getItem('bako_streak') || '{"count":1,"last":""}');
+  if (st.last !== today) {
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    st.count = (st.last === yesterday) ? st.count + 1 : 1;
+    st.last = today;
+    localStorage.setItem('bako_streak', JSON.stringify(st));
+  }
+  document.getElementById('streakBadge').textContent = "🔥 " + st.count + " Jou";
+}
+updateStreak();
+
 function updateProfileBanner() {
   const p = getProfile();
   if (p) {
     document.getElementById('displayStudentName').textContent = p.name + " (" + p.pts + " pts)";
     document.getElementById('displayStudentSchool').textContent = p.school + " - " + p.city;
+    document.getElementById('displayStats').textContent = Math.floor(p.pts / 10) + " question(s) réussie(s)";
   }
 }
 updateProfileBanner();
-function openProfileModal() {
+  function openProfileModal() {
   const p = getProfile();
   if (p) {
     document.getElementById('inpName').value = p.name;
@@ -332,71 +438,86 @@ function renderLeaderboard(lvl) {
   });
 }
 
+const SECRET_SALT = 7391;
+function computeHash(phone, timeWindow) {
+  let num = parseInt(phone, 10) || 12345678;
+  let val = ((num * 17) + (timeWindow * 31) + SECRET_SALT) % 899999 + 100000;
+  return val.toString(36).toUpperCase();
+}
+
+function sendPaymentProof() {
+  const ph = document.getElementById('payPhone').value.trim().replace(/\D/g, '');
+  const ref = document.getElementById('payRef').value.trim();
+  if (ph.length !== 8) { alert("Antre nimewo telefòn ou (8 chif) anvan !"); return; }
+  if (!ref) { alert("Antre Nimewo Referans / ID Tranzaksyon Natcash ki sou resi a !"); return; }
+  const msg = encodeURIComponent(`Bonjou BAKO HAITI 🇭🇹, mwen fè peman 100 Gds sou Natcash.\n📱 Nimewo m : ${ph}\n🧾 ID Tranzaksyon : ${ref}\nMen foto resi a :`);
+  window.open(`https://wa.me{msg}`, '_blank');
+  }
+  function checkVip() {
+  const ph = document.getElementById('userPhone').value.trim().replace(/\D/g, '');
+  const code = document.getElementById('vipCode').value.trim().toUpperCase();
+  const msgEl = document.getElementById('vipMsg');
+  if (ph.length !== 8) { msgEl.style.color = "#D21034"; msgEl.textContent = "❌ Antre nimewo telefòn 8 chif ou a."; return; }
+  if (!code.startsWith("BK-")) { msgEl.style.color = "#D21034"; msgEl.textContent = "❌ Fòma kòd la pa bon."; return; }
+  let usedCodes = JSON.parse(localStorage.getItem('bako_used_codes') || '[]');
+  if (usedCodes.includes(code)) { msgEl.style.color = "#D21034"; msgEl.textContent = "❌ Kòd sa a deja itilize !"; return; }
+  const nowWin = Math.floor(Date.now() / (30 * 60000));
+  const validNow = "BK-" + computeHash(ph, nowWin);
+  const validPrev = "BK-" + computeHash(ph, nowWin - 1);
+  if (code === validNow || code === validPrev) {
+    usedCodes.push(code);
+    localStorage.setItem('bako_used_codes', JSON.stringify(usedCodes));
+    localStorage.setItem('bako_haiti_sub', JSON.stringify({ phone: ph, activatedAt: Date.now() }));
+    msgEl.style.color = "#10B981";
+    msgEl.textContent = "✅ Felisitasyon ! Kont VIP ou aktive pou 30 jou.";
+    checkSub();
+    setTimeout(goHome, 1500);
+  } else {
+    msgEl.style.color = "#D21034";
+    msgEl.textContent = "❌ Kòd la pa bon, li ekspire (plis pase 30 min), oswa li pa pou nimewo sa a.";
+  }
+}
+
 function checkSub() {
   const s = JSON.parse(localStorage.getItem('bako_haiti_sub'));
   const b = document.getElementById('statusBadge'), e = document.getElementById('expiryInfo');
-  if (!s) { b.textContent = "Kont Gratis"; return false; }
+  if (!s) { b.textContent = "Kont Gratis"; b.classList.remove('vip-active'); e.textContent = ""; return false; }
   const left = (30 * 86400000) - (Date.now() - s.activatedAt);
-  if (left <= 0) { localStorage.removeItem('bako_haiti_sub'); b.textContent = "Abònman Ekspire"; return false; }
+  if (left <= 0) { localStorage.removeItem('bako_haiti_sub'); b.textContent = "Abònman Ekspire"; b.classList.remove('vip-active'); e.textContent = ""; return false; }
   b.textContent = "Kont VIP Aktif ⭐ (" + s.phone + ")"; b.classList.add('vip-active');
   e.textContent = "Rete " + Math.ceil(left / 86400000) + " jou"; return true;
 }
 checkSub();
-function checkVip() {
-  const ph = document.getElementById('userPhone').value.replace(/\D/g, '');
-  const cd = document.getElementById('vipCode').value.trim().toUpperCase();
-  const msg = document.getElementById('vipMsg');
-  if (ph.length !== 8) { msg.style.color = "#D21034"; msg.textContent = "❌ Antre 8 chif."; return; }
-  if (cd === "BK-" + (((parseInt(ph, 10) * 7) + 2026) % 9000 + 1000)) {
-    localStorage.setItem('bako_haiti_sub', JSON.stringify({ phone: ph, activatedAt: Date.now() }));
-    checkSub(); msg.style.color = "#10B981"; msg.textContent = "✅ VIP Aktive !";
-    setTimeout(goHome, 1000);
-  } else { msg.style.color = "#D21034"; msg.textContent = "❌ Kòd pa bon."; }
-}
 
-let list = [], idx = 0, score = 0, curClass = '', curSubId = '', curSubName = '';
-
-function hideAll() {
-  ['homePage','rankPage','profilePage','subjectPage','quizPage','resultPage','vipPage'].forEach(id => document.getElementById(id).style.display = 'none');
-}
-function goHome() { hideAll(); document.getElementById('homePage').style.display = 'block'; }
-function goVip() { hideAll(); document.getElementById('vipPage').style.display = 'block'; }
-function backToSubjects() { openSubjects(curClass); }
-
-function openSubjects(cls) {
-  if (!getProfile()) {
-    alert("👋 Avant de commencer, enregistre ton Nom et ton École !");
-    openProfileModal();
-    return;
+let logoClicks = 0, lastAdminMsg = "";
+document.getElementById('appLogo').onclick = () => {
+  logoClicks++;
+  if (logoClicks >= 5) {
+    logoClicks = 0;
+    const pwd = prompt("🔐 Antre modpas Admin BAKO HAITI :");
+    if (pwd === "BAKO2026") { hideAll(); document.getElementById('adminPage').style.display = 'block'; }
   }
-  curClass = cls;
-  const info = classSubjects[cls];
-  document.getElementById('subClassTitle').textContent = info.title;
-  const box = document.getElementById('subjectButtonsList');
-  box.innerHTML = '';
-  const isVipUser = checkSub();
+};
 
-  info.subjects.forEach(sub => {
-    const btn = document.createElement('button');
-    btn.className = sub.vip ? 'btn btn-outline' : 'btn btn-blue';
-    btn.innerHTML = sub.name + (sub.vip && !isVipUser ? ' <span class="vip-tag">VIP</span>' : '');
-    btn.onclick = () => {
-      if (sub.vip && !checkSub()) {
-        alert("🔒 Matière réservée aux membres VIP (100 Gds / 30 jours).");
-        goVip();
-      } else {
-        startSubjectQuiz(sub.id, sub.name);
-      }
-    };
-    box.appendChild(btn);
-  });
-  hideAll();
-  document.getElementById('subjectPage').style.display = 'block';
+function generateSecureVipCode() {
+  const ph = document.getElementById('adminClientPhone').value.trim().replace(/\D/g, '');
+  if (ph.length !== 8) { alert("Antre nimewo 8 chif elèv la !"); return; }
+  const nowWin = Math.floor(Date.now() / (30 * 60000));
+  const code = "BK-" + computeHash(ph, nowWin);
+  document.getElementById('admOutPhone').textContent = ph;
+  document.getElementById('admOutCode').textContent = code;
+  document.getElementById('adminGeneratedBox').style.display = 'block';
+  lastAdminMsg = `✅ Peman 100 Gds konfime sou BAKO HAITI !\n📱 Nimewo : ${ph}\n🔑 Kòd VIP ou : ${code}\n⚠️ Antre kòd sa a nan aplikasyon an anvan 30 minit.`;
 }
-function startSubjectQuiz(subId, subName) {
-  curSubId = subId;
-  curSubName = subName;
-      if (subId === '9_math_past') {
+
+function copyAdminReply() {
+  navigator.clipboard.writeText(lastAdminMsg);
+  alert("📋 Mesaj repons lan kopye ! Ou ka kole l dirèkteman sou WhatsApp elèv la.");
+    }
+  function startSubjectQuiz(subId, subName) {
+  curSubId = subId; curSubName = subName;
+  document.getElementById('subjectButtonsList').innerHTML = '';
+  if (subId === '9_math_past') {
     hideAll();
     const box = document.getElementById('subjectBox');
     document.getElementById('subClassTitle').textContent = "📚 30 Anciens Examens MENFP - Mathématiques (9ème)";
@@ -407,8 +528,7 @@ function startSubjectQuiz(subId, subName) {
       div.style.cssText = "background:#F8FAFC; border:1px solid #CBD5E1; border-radius:10px; padding:14px; margin-bottom:14px;";
       const titre = paper.titre || paper.title || ("Examen " + (idxP + 1));
       const annee = paper.annee || paper.year || "";
-      let qHtml = '';
-      let cHtml = '';
+      let qHtml = '', cHtml = '';
       if (paper.questions) {
         paper.questions.forEach((item, qi) => {
           qHtml += `<p style="margin:6px 0;"><strong>${qi + 1}.</strong> ${item.q}</p>`;
@@ -416,32 +536,36 @@ function startSubjectQuiz(subId, subName) {
           cHtml += `<p style="margin:6px 0;"><strong>${qi + 1}. Repons : ${bonneRep}</strong><br><em>${item.explication || ''}</em></p>`;
         });
       }
-      div.innerHTML = `
-        <h3 style="color:#0038A8; font-size:1rem; margin-bottom:4px;">${titre}</h3>
-        <p style="font-size:0.78rem; color:#D21034; font-weight:bold; margin-bottom:8px;">MENFP Officiel ${annee}</p>
-        <div style="font-size:0.88rem; line-height:1.5; margin-bottom:10px;">${qHtml}</div>
-        <button class="btn btn-sm" style="background:#0038A8; color:white;" onclick="const el=document.getElementById('corr_${idxP}'); el.style.display = el.style.display === 'none' ? 'block' : 'none';">✅ Voir / Cacher la correction</button>
-        <div id="corr_${idxP}" style="display:none; margin-top:10px; padding:10px; background:#EFF6FF; border-left:4px solid #0038A8; font-size:0.85rem;">${cHtml}</div>
-      `;
+      div.innerHTML = `<h3 style="color:#0038A8; font-size:1rem; margin-bottom:4px;">${titre}</h3><p style="font-size:0.78rem; color:#D21034; font-weight:bold; margin-bottom:8px;">MENFP Officiel ${annee}</p><div style="font-size:0.88rem; line-height:1.5; margin-bottom:10px;">${qHtml}</div><button class="btn btn-sm" style="background:#0038A8; color:white;" onclick="const el=document.getElementById('corr_${idxP}'); el.style.display = el.style.display === 'none' ? 'block' : 'none';">✅ Voir / Cacher la correction</button><div id="corr_${idxP}" style="display:none; margin-top:10px; padding:10px; background:#EFF6FF; border-left:4px solid #0038A8; font-size:0.85rem;">${cHtml}</div>`;
       box.appendChild(div);
     });
     document.getElementById('subjectPage').style.display = 'block';
     return;
-      }
+  }
   let seen = JSON.parse(localStorage.getItem('bako_seen') || '[]');
-    let baseQ = subjectQuestions[subId] || [];
+  let baseQ = subjectQuestions[subId] || [];
   let ext9 = (typeof extra9eme !== 'undefined' && extra9eme[subId]) ? extra9eme[subId] : [];
   let extNS = (typeof extraNS4UEH !== 'undefined' && extraNS4UEH[subId]) ? extraNS4UEH[subId] : [];
   let pool = (subId === '9_math' || subId === 'smp_math') ? genMathOnly(subId) : baseQ.concat(ext9, extNS);
   let fresh = pool.filter(q => !seen.includes(q.id));
   if (fresh.length === 0) { localStorage.removeItem('bako_seen'); fresh = pool; }
-  list = fresh.sort(() => Math.random() - 0.5).slice(0, 20);
+  const limit = isDemoMode ? 5 : 20;
+  list = fresh.sort(() => Math.random() - 0.5).slice(0, limit);
   idx = 0; score = 0;
   document.getElementById('qTitle').textContent = subName;
   document.getElementById('liveScore').textContent = "Note : 0 / " + list.length;
   hideAll();
   document.getElementById('quizPage').style.display = 'block';
   showQ();
+}
+
+function speakQuestion() {
+  if ('speechSynthesis' in window && list[idx]) {
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(list[idx].q);
+    utter.lang = 'fr-FR';
+    window.speechSynthesis.speak(utter);
+  }
 }
 
 function showQ() {
@@ -460,8 +584,7 @@ function showQ() {
       document.querySelectorAll('.option-btn').forEach(x => x.disabled = true);
       const fb = document.getElementById('fbBox'); fb.style.display = 'block';
       if (i === q.a) {
-        b.classList.add('correct'); score++;
-        addPointsToStudent(10);
+        b.classList.add('correct'); score++; addPointsToStudent(10);
         document.getElementById('liveScore').textContent = "Note : " + score + " / " + list.length;
         fb.style.background = "#D1FAE5"; fb.style.color = "#065F46"; fb.textContent = "✅ Bonne réponse ! (+10 pts au classement)";
       } else {
@@ -490,8 +613,18 @@ function nextQ() {
     document.getElementById('btnNewSet').onclick = () => startSubjectQuiz(curSubId, curSubName);
   }
 }
+
+function shareChallenge() {
+  const pct = document.getElementById('resPct').textContent;
+  const txt = encodeURIComponent(`🇭🇹 Mwen fè ${pct} nan ${curSubName} sou BAKO HAITI ! Eseye bat mwen nan egzamen MENFP yo : ${window.location.href}`);
+  window.open(`https://wa.me{txt}`, '_blank');
+}
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
 </script>
-  <script src="examens_passes.js"></script>
-  <script src="math_engine.js"></script>
+<script src="examens_passes.js"></script>
+<script src="math_engine.js"></script>
 </body>
 </html>
