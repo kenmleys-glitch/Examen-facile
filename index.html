@@ -576,6 +576,8 @@ function checkVip() {
       msgEl.style.color = "#D21034";
       msgEl.textContent = `❌ Kòd envalid oswa ekspire (${fails}/5 esè). Verifye nimewo w ak kòd la.`;
     }
+  }
+}
 function checkSub() {
   const s = JSON.parse(localStorage.getItem('bako_haiti_sub'));
   const b = document.getElementById('statusBadge'), e = document.getElementById('expiryInfo');
