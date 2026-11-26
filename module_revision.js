@@ -1,3 +1,4 @@
+/* === PATI 1/3 : KATALÒG 9ÈME & GLOSÈ === */
 const revisionCatalog = {
   '9eme': {
     label: "📘 9ème Année Fondamentale",
@@ -45,6 +46,7 @@ const revisionCatalog = {
       }
     }
   },
+  /* === PATI 2/3 : KATALÒG NS4 & GLOSÈ === */
   'ns4': {
     label: "🎓 NS4 - Baccalauréat",
     color: "#D21034",
@@ -107,6 +109,7 @@ const revisionCatalog = {
     }
   }
 };
+
 const glossaireData = [
   { fr: "Hypoténuse", kr: "Kote ki pi long nan yon triyang rektang (li anfas ang 90° a)." },
   { fr: "Antécédent (Fonction)", kr: "Valè x ou antre nan yon fonksyon f(x) pou w jwenn rezilta y la." },
@@ -115,7 +118,7 @@ const glossaireData = [
   { fr: "Mitose", kr: "Divizyon yon selil ki bay de lòt selil ki idantik ak premye a." },
   { fr: "Dérivée", kr: "Fason yon fonksyon ap varye (monte oswa desann) nan yon pwen presi." }
 ];
-
+        /* === PATI 3/3 : BOUTON & FONKSYON KLIK YO === */
 let curRevLevel = '9eme', curRevSub = '', fcIdx = 0, fcFlip = false;
 
 (function initSeparatedRevisionHub() {
@@ -132,75 +135,75 @@ let curRevLevel = '9eme', curRevSub = '', fcIdx = 0, fcFlip = false;
       <button class="btn btn-sm" style="background:#0038A8; color:white;" onclick="openRevLevel('9eme')">📘 Revizyon 9ème</button>
       <button class="btn btn-sm" style="background:#D21034; color:white;" onclick="openRevLevel('ns4')">🎓 Revizyon NS4</button>
       <button class="btn btn-sm" style="background:#10B981; color:white;" onclick="openRevGlos()">🇭🇹 Glosè FR/KR</button>
-      <button class="btn btn-sm" style="background:#FF6B00; color:white;" onclick="openRevUEH()">🏛️ Konkou & UEH</button>
+      <button class="btn btn-sm" style="background:#FF6B00; color:white;" onclick="openRevUEH()">🏛️ Konkou UEH</button>
     </div>
   `;
   home.appendChild(hubCard);
 
-  const hubPage = document.createElement('section');
-  hubPage.id = 'revisionHubPage';
-  hubPage.style.display = 'none';
-  hubPage.innerHTML = `<div id="revisionHubContent"></div><button class="btn btn-outline" onclick="goHome()">⬅️ Retour à l'Accueil</button>`;
-  main.appendChild(hubPage);
+  if (!document.getElementById('revisionHubPage')) {
+    const revPage = document.createElement('div');
+    revPage.id = 'revisionHubPage';
+    revPage.style.display = 'none';
+    revPage.innerHTML = `
+      <div id="revisionHubContent"></div>
+      <button class="btn" style="background:#F1F5F9; color:#0F172A; border:1px solid #CBD5E1; margin-top:12px;" onclick="if(typeof goHome==='function'){goHome();}else{hideAll();document.getElementById('homePage').style.display='block';}">⬅️ Retour à l'Accueil</button>
+    `;
+    main.appendChild(revPage);
+  }
 })();
-
-const _origHideAllSep = hideAll;
-hideAll = function() {
-  _origHideAllSep();
-  const hp = document.getElementById('revisionHubPage');
-  if (hp) hp.style.display = 'none';
-};
 
 function openRevLevel(lvl) {
   curRevLevel = lvl;
-  hideAll();
+  const cat = revisionCatalog[lvl];
+  if (!cat) return;
+  if (typeof hideAll === 'function') hideAll();
   document.getElementById('revisionHubPage').style.display = 'block';
-  const data = revisionCatalog[lvl];
-  const box = document.getElementById('revisionHubContent');
-  const subNames = Object.keys(data.subjects);
 
-  box.innerHTML = `
-    <div class="card" style="border-left:5px solid ${data.color};">
-      <h2 style="color:${data.color};">${data.label}</h2>
-      <p>Chwazi yon matyè pou w wè Fiches de Révision ak Flashcards li yo apa :</p>
-      <div id="revSubButtons" style="margin-top:10px;"></div>
+  const subKeys = Object.keys(cat.subjects);
+  document.getElementById('revisionHubContent').innerHTML = `
+    <div class="card" style="border-top:4px solid ${cat.color};">
+      <h2 style="color:${cat.color};">${cat.label}</h2>
+      <p style="font-size:0.86rem; margin-bottom:10px;">Chwazi yon matyè pou w wè Fèy Revizyon ak Flashcards yo :</p>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        ${subKeys.map(sub => `
+          <button class="btn" style="background:${cat.color}; color:white; text-align:left;" onclick="openRevSubject('${sub.replace(/'/g, "\\'")}')">${sub}</button>
+        `).join('')}
+      </div>
     </div>
   `;
-  const btnArea = document.getElementById('revSubButtons');
-  subNames.forEach(sName => {
-    const b = document.createElement('button');
-    b.className = 'btn btn-blue';
-    b.style.background = data.color;
-    b.textContent = sName;
-    b.onclick = () => openRevSubject(lvl, sName);
-    btnArea.appendChild(b);
-  });
 }
 
-function openRevSubject(lvl, sName) {
-  curRevLevel = lvl; curRevSub = sName; fcIdx = 0; fcFlip = false;
-  const subObj = revisionCatalog[lvl].subjects[sName];
-  const box = document.getElementById('revisionHubContent');
+function openRevSubject(subName) {
+  curRevSub = subName;
+  fcIdx = 0;
+  fcFlip = false;
+  const subData = revisionCatalog[curRevLevel]?.subjects[subName];
+  if (!subData) return;
 
-  let fichesHtml = subObj.fiches.map(f => `
-    <div style="background:#F8FAFC; border:1px solid #CBD5E1; border-radius:8px; padding:10px; margin-bottom:10px;">
-      <strong style="color:#0038A8;">📖 ${f.titre}</strong>
-      <div style="font-size:0.86rem; line-height:1.55; margin-top:6px; white-space:pre-line;">${f.contenu}</div>
-    </div>
-  `).join('');
+  if (typeof hideAll === 'function') hideAll();
+  document.getElementById('revisionHubPage').style.display = 'block';
 
-  box.innerHTML = `
-    <div class="card border-blue">
-      <h2 style="color:#0038A8;">${sName}</h2>
-      <h3 style="font-size:0.95rem; color:#D21034; margin:10px 0 6px 0;">1. Fiches de Révision & Fòmil</h3>
-      ${fichesHtml}
-      <h3 style="font-size:0.95rem; color:#FF6B00; margin:14px 0 6px 0;">2. Flashcards (Kat Memwa Rapid)</h3>
+  document.getElementById('revisionHubContent').innerHTML = `
+    <div class="card">
+      <h2 style="color:${revisionCatalog[curRevLevel].color};">${subName}</h2>
+      <h3 style="margin:10px 0 6px; font-size:0.95rem;">1. Fèy Revizyon (Rezime)</h3>
+      ${subData.fiches.map(f => `
+        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:10px; margin-bottom:8px;">
+          <strong style="color:#0038A8; display:block; margin-bottom:4px;">📖 ${f.titre}</strong>
+          <div style="font-size:0.85rem; white-space:pre-line; line-height:1.5; color:#1E293B;">${f.contenu}</div>
+        </div>
+      `).join('')}
+
+      <h3 style="color:#FF6B00; margin:14px 0 6px; font-size:0.95rem;">2. Flashcards (Kat Memwa Rapid)</h3>
+      <p style="font-size:0.8rem; color:#64748B; margin-bottom:6px;">Klike sou kat la pou w wè repons lan :</p>
       <div id="subFlashBox"></div>
-      <button class="btn btn-sm" style="background:#64748B; color:white; width:100%; margin-top:12px;" onclick="openRevLevel('${lvl}')">⬅️ Chwazi yon lòt matyè</button>
+
+      <button class="btn btn-sm" style="background:#64748B; color:white; width:100%; margin-top:10px;" onclick="openRevLevel('${curRevLevel}')">⬅️ Chwazi yon lòt matyè</button>
     </div>
   `;
   renderSubFlashcard();
 }
+
 function renderSubFlashcard() {
   const cards = revisionCatalog[curRevLevel].subjects[curRevSub].flashcards;
   const item = cards[fcIdx];
@@ -216,8 +219,9 @@ function renderSubFlashcard() {
     </div>
   `;
 }
+
 function openRevGlos() {
-  hideAll();
+  if (typeof hideAll === 'function') hideAll();
   document.getElementById('revisionHubPage').style.display = 'block';
   document.getElementById('revisionHubContent').innerHTML = `
     <div class="card border-green">
@@ -242,7 +246,7 @@ function filterGlossary() {
 }
 
 function openRevUEH() {
-  hideAll();
+  if (typeof hideAll === 'function') hideAll();
   document.getElementById('revisionHubPage').style.display = 'block';
   document.getElementById('revisionHubContent').innerHTML = `
     <div class="card border-orange">
