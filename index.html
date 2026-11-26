@@ -445,23 +445,19 @@ function renderLeaderboard(lvl) {
 function sendPaymentProof() {
   const ph = document.getElementById('payPhone').value.trim().replace(/\D/g, '');
   const ref = document.getElementById('payRef').value.trim();
-  if (ph.length !== 8) { alert("Antre nimewo telefòn ou (8 chif) anvan !"); return; }
-  if (!ref) { alert("Antre Nimewo Referans / ID Tranzaksyon Natcash ki sou resi a !"); return; }
-  const msg = encodeURIComponent(`Bonjou BAKO HAITI 🇭🇹, mwen fè peman 100 Gds sou Natcash.\n📱 Nimewo m : ${ph}\n🧾 ID Tranzaksyon : ${ref}\nMen foto resi a :`);
-  window.open(`https://wa.me{msg}`, '_blank');
-  }
-  /* === MOTÈ KÒD VIP SEKIRIZE 12 KARAKTÈ (ANTI-DEVINE & ANTI-PATAJ) === */
-const VIP_SECRET_SALT = "BAKO_HT_SECRET_KEY_2026_9X7Q";
+  if (ph.length !== 8) { alert("Antre nimewo 8 chif ou a !"); return; }
+  if (!ref) { alert("Antre ID Tranzaksyon Natcash la !"); return; }
+  const txt = "Bonjou BAKO HAITI ! Peman 100 Gds.\nNum: " + ph + "\nID: " + ref;
+  window.open("https://wa.me" + encodeURIComponent(txt), "_blank");
+}
 
 function copyNatcashNum() {
-  navigator.clipboard.writeText("42402215").then(() => {
-    const btn = document.getElementById('btnCopyNatcash');
-    if (btn) {
-      btn.textContent = "✅ Kopye !";
-      btn.style.background = "#10B981";
-      setTimeout(() => { btn.textContent = "📋 Kopye"; btn.style.background = "#0038A8"; }, 2500);
-    }
-  }).catch(() => alert("Nimewo Natcash : 42402215"));
+  navigator.clipboard.writeText("42402215");
+  const btn = document.getElementById('btnCopyNatcash');
+  if (btn) {
+    btn.textContent = "✅ Kopye !";
+    btn.style.background = "#10B981";
+  }
 }
     return h.toString(36).toUpperCase().padStart(6, '0').slice(0, 4);
 /* === MOTÈ KÒD VIP SEKIRIZE 12 KARAKTÈ (BRANCHE AK CHECKSUB) === */
