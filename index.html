@@ -131,11 +131,18 @@
   </section>
 
   <section id="vipPage" style="display:none;">
+    <section id="vipPage" style="display:none;">
     <div class="card border-orange">
-      <h2 style="color:#FF6B00;">🟠 Abonnement VIP - 100 Gds / 30 Jours</h2>
-      <div class="natcash-box">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2 style="color:#FF6B00; margin:0;">🟠 Abonnement VIP - 100 Gds / 30 Jours</h2>
+        <span style="background:#FEF3C7; color:#B45309; font-size:0.72rem; font-weight:bold; padding:3px 8px; border-radius:12px;">🔒 Sekirize</span>
+      </div>
+      <div class="natcash-box" style="margin-top:10px;">
         <p><strong>Etap 1 : Voye 100 Gds sou Natcash :</strong></p>
-        <p style="font-size:1.15rem; color:#0038A8; font-weight:bold; margin:5px 0;">📱 +509 42 40 22 15</p>
+        <div style="display:flex; align-items:center; justify-content:space-between; background:white; border:1px solid #FDBA74; padding:8px 12px; border-radius:8px; margin:6px 0;">
+          <span style="font-size:1.15rem; color:#0038A8; font-weight:bold;">📱 +509 42 40 22 15</span>
+          <button type="button" id="btnCopyNatcash" class="btn btn-sm" style="background:#0038A8; color:white; padding:5px 10px;" onclick="copyNatcashNum()">📋 Kopye</button>
+        </div>
         <p style="font-size:0.8rem; color:#64748B; margin-bottom:8px;">Apre peman an, ranpli enfòmasyon resi a anba a pou w voye foto prèv la sou WhatsApp :</p>
         <input type="tel" id="payPhone" class="input-code" placeholder="Nimewo telefòn ou (ex: 37124567)" maxlength="8">
         <input type="text" id="payRef" class="input-code" placeholder="ID Tranzaksyon Natcash (ex: 84920194)">
@@ -143,14 +150,13 @@
       </div>
       <hr style="margin:15px 0; border:0; border-top:1px solid #E2E8F0;">
       <p style="font-weight:bold; margin-bottom:6px;">Etap 2 : Antre kòd aktivasyon ou resevwa a :</p>
-      <p style="font-size:0.78rem; color:#D21034; margin-bottom:8px;">⚠️ Kòd la lye ak nimewo w epi li valab pandan 30 minit sèlman.</p>
+      <p style="font-size:0.78rem; color:#D21034; margin-bottom:8px;">⚠️ Kòd 12 karaktè sa a lye ak nimewo w, aparèy ou, epi li valab pandan 30 minit sèlman.</p>
       <input type="tel" id="userPhone" class="input-code" placeholder="Nimewo telefòn ou (ex: 37124567)" maxlength="8">
-      <input type="text" id="vipCode" class="input-code" placeholder="Kòd VIP (ex: BK-8492A)">
-      <button class="btn btn-orange" onclick="checkVip()">✅ Aktive VIP (30 Jours)</button>
+      <input type="text" id="vipCode" class="input-code" maxlength="14" style="text-transform:uppercase; letter-spacing:1px;" placeholder="Kòd VIP (ex: BK-8A4F-9C2E-7D)">
+      <button class="btn btn-orange" id="btnCheckVip" onclick="checkVip()">✅ Aktive VIP (30 Jours)</button>
       <p id="vipMsg" class="vip-msg"></p>
     </div>
-  </section>
-
+    </section>
   <section id="adminPage" style="display:none;">
     <div class="card border-red">
       <h2 style="color:#D21034;">🔐 Panèl Admin - Jenere Kòd VIP</h2>
