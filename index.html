@@ -484,12 +484,47 @@ function computeHash(phone, timeWin) {
       h = ((h ^ (h >>> 16)) >>> 0);
     }
     return h.toString(36).toUpperCase().padStart(6, '0').slice(0, 4);
+/* === MOTÈ KÒD VIP SEKIRIZE 12 KARAKTÈ (BRANCHE AK CHECKSUB) === */
+const VIP_SECRET_SALT = "BAKO_HT_SECRET_KEY_2026_9X7Q";
+
+function sendPaymentProof() {
+  const ph = document.getElementById('payPhone').value.trim().replace(/\D/g, '');
+  const ref = document.getElementById('payRef').value.trim();
+  if (ph.length !== 8) { alert("Antre nimewo telefòn 8 chif ou a !"); return; }
+  if (!ref) { alert("Antre Nimewo Referans / ID Tranzaksyon Natcash la !"); return; }
+  const msg = encodeURIComponent(`Bonjou BAKO HAITI ! Mwen fè peman 100 Gds sou Natcash.\n📱 Nimewo m : ${ph}\n🧾 ID Tranzaksyon : ${ref}\n(Men foto prèv la anba a 👇)`);
+  window.open(`https://wa.me{msg}`, '_blank');
+}
+
+function copyNatcashNum() {
+  navigator.clipboard.writeText("42402215").then(() => {
+    const btn = document.getElementById('btnCopyNatcash');
+    if (btn) {
+      btn.textContent = "✅ Kopye !";
+      btn.style.background = "#10B981";
+      setTimeout(() => { btn.textContent = "📋 Kopye"; btn.style.background = "#0038A8"; }, 2500);
+    }
+  }).catch(() => alert("Nimewo Natcash : 42402215"));
+}
+
+function computeHash(phone, timeWin) {
+  const raw1 = `${VIP_SECRET_SALT}|${phone}|${timeWin}|SALT_A`;
+  const raw2 = `${timeWin}|${VIP_SECRET_SALT}|${phone}|SALT_B`;
+  const raw3 = `${phone}|SALT_C|${timeWin}|VIP_SECRET_SALT`;
+
+  const mix = (str, seed) => {
+    let h = seed >>> 0;
+    for (let i = 0; i < str.length; i++) {
+      h = Math.imul(h ^ str.charCodeAt(i), 2654435761);
+      h = ((h ^ (h >>> 16)) >>> 0);
+    }
+    return h.toString(36).toUpperCase().padStart(6, '0').slice(0, 4);
   };
 
   const p1 = mix(raw1, 0x811c9dc5);
   const p2 = mix(raw2, 0x1b873593);
   const p3 = mix(raw3, 0xcc9e2d51).slice(0, 2);
-  return `${p1}-${p2}-${p3}`; // Egzanp: 8A4F-9C2E-7D (10 karaktè kripte + BK- = 12 karaktè)
+  return `${p1}-${p2}-${p3}`;
 }
 
 function generateSecureVipCode() {
@@ -527,7 +562,6 @@ function checkVip() {
     return;
   }
 
-  // Verifye si kòd sa a te deja itilize
   const usedCodes = JSON.parse(localStorage.getItem('bako_used_codes') || '[]');
   if (usedCodes.includes(code)) {
     msgEl.style.color = "#D21034";
@@ -535,7 +569,6 @@ function checkVip() {
     return;
   }
 
-  // Verifye tranch 30 minit aktyèl la ak tranch anvan an (pou si l te voye l a 29yèm minit)
   const nowWin = Math.floor(Date.now() / (30 * 60000));
   const validNow = "BK-" + computeHash(ph, nowWin);
   const validPrev = "BK-" + computeHash(ph, nowWin - 1);
@@ -545,13 +578,11 @@ function checkVip() {
     usedCodes.push(code);
     localStorage.setItem('bako_used_codes', JSON.stringify(usedCodes));
 
-    const expiry = Date.now() + (30 * 24 * 60 * 60 * 1000); // 30 jou
-    localStorage.setItem('bako_vip_expiry', expiry.toString());
-    localStorage.setItem('bako_vip_phone', ph);
+    localStorage.setItem('bako_vip', JSON.stringify({ phone: ph, date: Date.now() }));
+    if (typeof checkSub === 'function') checkSub();
 
     msgEl.style.color = "#10B981";
     msgEl.textContent = "🎉 Felisitasyon ! Kont VIP ou aktive pou 30 jou !";
-    if (typeof updateVipUI === 'function') updateVipUI();
     setTimeout(() => { if (typeof goHome === 'function') goHome(); }, 1800);
   } else {
     const fails = parseInt(localStorage.getItem('bako_vip_fails') || '0', 10) + 1;
@@ -566,9 +597,7 @@ function checkVip() {
       msgEl.textContent = `❌ Kòd envalid oswa ekspire (${fails}/5 esè). Verifye nimewo w ak kòd la.`;
     }
   }
-}
-}
-
+      }
 function checkSub() {
   const s = JSON.parse(localStorage.getItem('bako_haiti_sub'));
   const b = document.getElementById('statusBadge'), e = document.getElementById('expiryInfo');
