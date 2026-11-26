@@ -459,29 +459,115 @@ function sendPaymentProof() {
   const msg = encodeURIComponent(`Bonjou BAKO HAITI 🇭🇹, mwen fè peman 100 Gds sou Natcash.\n📱 Nimewo m : ${ph}\n🧾 ID Tranzaksyon : ${ref}\nMen foto resi a :`);
   window.open(`https://wa.me{msg}`, '_blank');
   }
-  function checkVip() {
+  /* === MOTÈ KÒD VIP SEKIRIZE 12 KARAKTÈ (ANTI-DEVINE & ANTI-PATAJ) === */
+const VIP_SECRET_SALT = "BAKO_HT_SECRET_KEY_2026_9X7Q";
+
+function copyNatcashNum() {
+  navigator.clipboard.writeText("42402215").then(() => {
+    const btn = document.getElementById('btnCopyNatcash');
+    if (btn) {
+      btn.textContent = "✅ Kopye !";
+      btn.style.background = "#10B981";
+      setTimeout(() => { btn.textContent = "📋 Kopye"; btn.style.background = "#0038A8"; }, 2500);
+    }
+  }).catch(() => alert("Nimewo Natcash : 42402215"));
+}
+
+function computeHash(phone, timeWin) {
+  const raw1 = `${VIP_SECRET_SALT}|${phone}|${timeWin}|SALT_A`;
+  const raw2 = `${timeWin}|${VIP_SECRET_SALT}|${phone}|SALT_B`;
+  const raw3 = `${phone}|SALT_C|${timeWin}|${VIP_SECRET_SALT}`;
+
+  const mix = (str, seed) => {
+    let h = seed >>> 0;
+    for (let i = 0; i < str.length; i++) {
+      h = Math.imul(h ^ str.charCodeAt(i), 2654435761);
+      h = ((h ^ (h >>> 16)) >>> 0);
+    }
+    return h.toString(36).toUpperCase().padStart(6, '0').slice(0, 4);
+  };
+
+  const p1 = mix(raw1, 0x811c9dc5);
+  const p2 = mix(raw2, 0x1b873593);
+  const p3 = mix(raw3, 0xcc9e2d51).slice(0, 2);
+  return `${p1}-${p2}-${p3}`; // Egzanp: 8A4F-9C2E-7D (10 karaktè kripte + BK- = 12 karaktè)
+}
+
+function generateSecureVipCode() {
+  const ph = document.getElementById('adminClientPhone').value.trim().replace(/\D/g, '');
+  if (ph.length !== 8) { alert("Antre nimewo 8 chif elèv la !"); return; }
+  const nowWin = Math.floor(Date.now() / (30 * 60000));
+  const code = "BK-" + computeHash(ph, nowWin);
+  document.getElementById('admOutPhone').textContent = ph;
+  document.getElementById('admOutCode').textContent = code;
+  document.getElementById('adminGeneratedBox').style.display = 'block';
+  lastAdminMsg = `✅ Peman 100 Gds konfime sou BAKO HAITI !\n📱 Nimewo : ${ph}\n🔑 Kòd VIP ou : ${code}\n⚠️ Antre kòd sa a nan aplikasyon an anvan 30 minit (li lye ak nimewo w sèlman).`;
+}
+
+function checkVip() {
+  const msgEl = document.getElementById('vipMsg');
+  const lockUntil = parseInt(localStorage.getItem('bako_vip_lock') || '0', 10);
+  if (Date.now() < lockUntil) {
+    const minsLeft = Math.ceil((lockUntil - Date.now()) / 60000);
+    msgEl.style.color = "#D21034";
+    msgEl.textContent = `🚫 Twòp move esè ! Tann ${minsLeft} minit anvan w eseye ankò.`;
+    return;
+  }
+
   const ph = document.getElementById('userPhone').value.trim().replace(/\D/g, '');
   const code = document.getElementById('vipCode').value.trim().toUpperCase();
-  const msgEl = document.getElementById('vipMsg');
-  if (ph.length !== 8) { msgEl.style.color = "#D21034"; msgEl.textContent = "❌ Antre nimewo telefòn 8 chif ou a."; return; }
-  if (!code.startsWith("BK-")) { msgEl.style.color = "#D21034"; msgEl.textContent = "❌ Fòma kòd la pa bon."; return; }
-  let usedCodes = JSON.parse(localStorage.getItem('bako_used_codes') || '[]');
-  if (usedCodes.includes(code)) { msgEl.style.color = "#D21034"; msgEl.textContent = "❌ Kòd sa a deja itilize !"; return; }
+
+  if (ph.length !== 8) {
+    msgEl.style.color = "#D21034";
+    msgEl.textContent = "❌ Antre nimewo telefòn 8 chif ou a.";
+    return;
+  }
+  if (!code.startsWith("BK-") || code.length < 14) {
+    msgEl.style.color = "#D21034";
+    msgEl.textContent = "❌ Fòma kòd la pa bon (li dwe tankou : BK-XXXX-XXXX-XX).";
+    return;
+  }
+
+  // Verifye si kòd sa a te deja itilize
+  const usedCodes = JSON.parse(localStorage.getItem('bako_used_codes') || '[]');
+  if (usedCodes.includes(code)) {
+    msgEl.style.color = "#D21034";
+    msgEl.textContent = "🚫 Kòd sa a deja itilize ! Chak kòd valab yon sèl fwa.";
+    return;
+  }
+
+  // Verifye tranch 30 minit aktyèl la ak tranch anvan an (pou si l te voye l a 29yèm minit)
   const nowWin = Math.floor(Date.now() / (30 * 60000));
   const validNow = "BK-" + computeHash(ph, nowWin);
   const validPrev = "BK-" + computeHash(ph, nowWin - 1);
+
   if (code === validNow || code === validPrev) {
+    localStorage.removeItem('bako_vip_fails');
     usedCodes.push(code);
     localStorage.setItem('bako_used_codes', JSON.stringify(usedCodes));
-    localStorage.setItem('bako_haiti_sub', JSON.stringify({ phone: ph, activatedAt: Date.now() }));
+
+    const expiry = Date.now() + (30 * 24 * 60 * 60 * 1000); // 30 jou
+    localStorage.setItem('bako_vip_expiry', expiry.toString());
+    localStorage.setItem('bako_vip_phone', ph);
+
     msgEl.style.color = "#10B981";
-    msgEl.textContent = "✅ Felisitasyon ! Kont VIP ou aktive pou 30 jou.";
-    checkSub();
-    setTimeout(goHome, 1500);
+    msgEl.textContent = "🎉 Felisitasyon ! Kont VIP ou aktive pou 30 jou !";
+    if (typeof updateVipUI === 'function') updateVipUI();
+    setTimeout(() => { if (typeof goHome === 'function') goHome(); }, 1800);
   } else {
-    msgEl.style.color = "#D21034";
-    msgEl.textContent = "❌ Kòd la pa bon, li ekspire (plis pase 30 min), oswa li pa pou nimewo sa a.";
+    const fails = parseInt(localStorage.getItem('bako_vip_fails') || '0', 10) + 1;
+    localStorage.setItem('bako_vip_fails', fails.toString());
+    if (fails >= 5) {
+      localStorage.setItem('bako_vip_lock', (Date.now() + 15 * 60000).toString());
+      localStorage.removeItem('bako_vip_fails');
+      msgEl.style.color = "#D21034";
+      msgEl.textContent = "🚫 5 move esè ! Aktivasyon an bloke pandan 15 minit.";
+    } else {
+      msgEl.style.color = "#D21034";
+      msgEl.textContent = `❌ Kòd envalid oswa ekspire (${fails}/5 esè). Verifye nimewo w ak kòd la.`;
+    }
   }
+}
 }
 
 function checkSub() {
@@ -504,18 +590,6 @@ document.getElementById('appLogo').onclick = () => {
     if (pwd === "BAKO2026") { hideAll(); document.getElementById('adminPage').style.display = 'block'; }
   }
 };
-
-function generateSecureVipCode() {
-  const ph = document.getElementById('adminClientPhone').value.trim().replace(/\D/g, '');
-  if (ph.length !== 8) { alert("Antre nimewo 8 chif elèv la !"); return; }
-  const nowWin = Math.floor(Date.now() / (30 * 60000));
-  const code = "BK-" + computeHash(ph, nowWin);
-  document.getElementById('admOutPhone').textContent = ph;
-  document.getElementById('admOutCode').textContent = code;
-  document.getElementById('adminGeneratedBox').style.display = 'block';
-  lastAdminMsg = `✅ Peman 100 Gds konfime sou BAKO HAITI !\n📱 Nimewo : ${ph}\n🔑 Kòd VIP ou : ${code}\n⚠️ Antre kòd sa a nan aplikasyon an anvan 30 minit.`;
-}
-
 function copyAdminReply() {
   navigator.clipboard.writeText(lastAdminMsg);
   alert("📋 Mesaj repons lan kopye ! Ou ka kole l dirèkteman sou WhatsApp elèv la.");
