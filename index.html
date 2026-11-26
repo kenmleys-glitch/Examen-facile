@@ -442,14 +442,6 @@ function renderLeaderboard(lvl) {
     box.appendChild(row);
   });
 }
-
-const SECRET_SALT = 7391;
-function computeHash(phone, timeWindow) {
-  let num = parseInt(phone, 10) || 12345678;
-  let val = ((num * 17) + (timeWindow * 31) + SECRET_SALT) % 899999 + 100000;
-  return val.toString(36).toUpperCase();
-}
-
 function sendPaymentProof() {
   const ph = document.getElementById('payPhone').value.trim().replace(/\D/g, '');
   const ref = document.getElementById('payRef').value.trim();
@@ -471,18 +463,6 @@ function copyNatcashNum() {
     }
   }).catch(() => alert("Nimewo Natcash : 42402215"));
 }
-
-function computeHash(phone, timeWin) {
-  const raw1 = `${VIP_SECRET_SALT}|${phone}|${timeWin}|SALT_A`;
-  const raw2 = `${timeWin}|${VIP_SECRET_SALT}|${phone}|SALT_B`;
-  const raw3 = `${phone}|SALT_C|${timeWin}|${VIP_SECRET_SALT}`;
-
-  const mix = (str, seed) => {
-    let h = seed >>> 0;
-    for (let i = 0; i < str.length; i++) {
-      h = Math.imul(h ^ str.charCodeAt(i), 2654435761);
-      h = ((h ^ (h >>> 16)) >>> 0);
-    }
     return h.toString(36).toUpperCase().padStart(6, '0').slice(0, 4);
 /* === MOTÈ KÒD VIP SEKIRIZE 12 KARAKTÈ (BRANCHE AK CHECKSUB) === */
 const VIP_SECRET_SALT = "BAKO_HT_SECRET_KEY_2026_9X7Q";
@@ -596,8 +576,6 @@ function checkVip() {
       msgEl.style.color = "#D21034";
       msgEl.textContent = `❌ Kòd envalid oswa ekspire (${fails}/5 esè). Verifye nimewo w ak kòd la.`;
     }
-  }
-      }
 function checkSub() {
   const s = JSON.parse(localStorage.getItem('bako_haiti_sub'));
   const b = document.getElementById('statusBadge'), e = document.getElementById('expiryInfo');
